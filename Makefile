@@ -31,11 +31,16 @@ run:
 	- docker rm patc
 	docker  run -ti --net mynetpat --ip 172.19.0.2 -p 3003:3000 --restart unless-stopped --name patc --hostname PATdock -v ./proxdata:/home/pat/src/pat pat 
 	- docker ps -a
+attach:
+	docker attach patc
+start:
+	docker start  patc &
+exec:
+	docker exec   patc bash /home/pat/src/pat/patServer/runme.sh &
+mesh:
+	docker exec   patc bash /home/pat/src/sh/meshstart.sh &
+net:
+	docker network create --subnet=172.19.0.0/16 mynetpat
 ssh:
 	docker exec -it patc /bin/bash service ssh start
 	sshpass -p docker  ssh pat@172.19.0.2 
-attach:
-	docker attach patc
-net:
-	docker network create --subnet=172.19.0.0/16 mynetpat
-

@@ -47,9 +47,9 @@ COPY instondocker.sh /home/pat/src/instondocker.sh
 COPY mytoken.txt     /home/pat/src/mytoken.txt    
 RUN echo "(cd /home/pat/src/pat/patServer && bash runme.sh &)"                                >/home/pat/src/runpat.sh
 RUN alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
-RUN alias patrestart='(killall node -q && cd ~/src/pat/patServer && bash runme.sh &)'
+RUN alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
 run echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                           >>/home/pat/.bash_aliases
-run echo "alias patrestart='(killall node -q && cd ~/src/pat/patServer && bash runme.sh &)'" >>/home/pat/.bash_aliases
+run echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'" >>/home/pat/.bash_aliases
 
 RUN chown pat:pat -R /home/pat
 EXPOSE 80

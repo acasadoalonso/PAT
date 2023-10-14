@@ -37,9 +37,9 @@ cd       ~/src/pat
 (cd patServer/Server; npm install)
 #
 alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
-alias patrestart='(killall node -q && cd ~/src/pat/patServer && bash runme.sh &)'
+alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
 echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'" >>~/.bash_aliases
-echo "alias patrestart='(killall node -q && cd ~/src/pat/patServer && bash runme.sh &)'" >>~/.bash_aliases
+echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'" >>~/.bash_aliases
 cd       ~/src/pat
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env.development.local
 sudo apt autoremove -y

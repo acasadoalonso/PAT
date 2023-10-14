@@ -37,24 +37,26 @@ RUN useradd -m ${USER} --uid=${UID} --shell=/bin/bash && echo "${USER}:${PW}" | 
 RUN adduser pat sudo 
 RUN adduser pat adm 
 RUN echo 'alias ll="ls -la"' >> ~/.bashrc
-RUN echo "Welcome to the PAT application container" > /etc/motd  && cp -a /root /root.orig
+RUN echo "*** Welcome to the PAT application container ***" > /etc/motd  && cp -a /root /root.orig
 # Clean up APT when done.
-RUN apt autoremove -y
+RUN apt-get autoremove -y
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* 
 #USER pat
 RUN git config --global user.email "acasadoalonso@gmail.com" 
 RUN git config --global user.name  "Angel Casado"     
-RUN mkdir -p      /home/pat/src
-RUN mkdir -p      /home/pat/src/pat
-WORKDIR           /home/pat/src/pat
-COPY instondocker.sh /home/pat/src/instondocker.sh
-COPY mytoken.txt     /home/pat/src/mytoken.txt    
-COPY meshi.sh        /home/pat/src/meshi.sh    
-RUN echo "(cd /home/pat/src/pat/patServer && bash runme.sh &)"                                >/home/pat/src/runpat.sh
-RUN alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
-RUN alias patrestart='(killall node -q && cd ~/src/pat/patServer && bash runme.sh &)'
-run echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                           >>/home/pat/.bash_aliases
-run echo "alias patrestart='(killall node -q && cd ~/src/pat/patServer && bash runme.sh &)'" >>/home/pat/.bash_aliases
+RUN mkdir -p         		/home/pat/src
+RUN mkdir -p         		/home/pat/src/sh
+RUN mkdir -p         		/home/pat/src/pat
+WORKDIR              		/home/pat/src/pat
+COPY instondocker.sh 		/home/pat/src/sh/instondocker.sh
+COPY archive/mytoken.txt     	/home/pat/src/mytoken.txt    
+COPY meshi.sh        		/home/pat/src/sh/meshi.sh    
+RUN echo "(cd /home/pat/src/pat/patServer && bash runme.sh &)"                                              >/home/pat/src/runpat.sh
+RUN echo "(cd /usr/local/mesh_daemons/meshagent/ && ./meshagent --installedByUser=0)"                       >/home/pat/src/sh/meshstart.sh 
+RUN alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'
+RUN alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log  &)'
+run echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'"                           >>/home/pat/.bash_aliases
+run echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log  &)'"    >>/home/pat/.bash_aliases
 
 RUN chown pat:pat -R /home/pat
 EXPOSE 80
