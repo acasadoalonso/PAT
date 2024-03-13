@@ -19,6 +19,7 @@ RUN locale-gen en_US.UTF-8
 RUN export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8	
 RUN apt-get install -y wget systemd git libarchive-dev  vim inetutils-ping figlet ntpdate ssh sudo openssh-server 				
 RUN apt-get install -y gh gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-dev
+RUN apt-get install -y openjdk-17-jre-headless openjdk-17-jdk-headless
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 ARG NODE_MAJOR=18
@@ -45,6 +46,22 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN git config --global user.email "acasadoalonso@gmail.com" 
 RUN git config --global user.name  "Angel Casado"     
 RUN mkdir -p         		/home/pat/src
+
+# install keycloak and deps for authentication
+RUN mkdir -p         		/home/pat/keycloak
+RUN echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
+ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+RUN wget https://github.com/keycloak/keycloak/releases/download/24.0.1/keycloak-24.0.1.tar.gz
+RUN tar zxvf keycloak-24.0.1.tar.gz
+RUN rm keycloak-24.0.1.tar.gz
+ENV KEYCLOAK_ADMIN=admin
+ENV KEYCLOAK_ADMIN_PASSWORD=KYC_PASS
+WORKDIR /home/pat/src/keycloak-24.0.1/
+# COPY keycloak/keycloak.conf /home/pat/src/keycloak-24.0.1/conf
+RUN ./bin/kc.sh --verbose build
+# COPY keycloak/keycloak.service /etc/systemd/system/
+# need to run it with ./binkc.sh --verbose start or start-dev
+
 RUN mkdir -p         		/home/pat/src/sh
 RUN mkdir -p         		/home/pat/src/pat
 WORKDIR              		/home/pat/src/pat
