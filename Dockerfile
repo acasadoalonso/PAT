@@ -51,16 +51,16 @@ RUN mkdir -p         		/home/pat/src
 RUN mkdir -p         		/home/pat/keycloak
 RUN echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
 ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
-RUN wget https://github.com/keycloak/keycloak/releases/download/24.0.1/keycloak-24.0.1.tar.gz
-RUN tar zxvf keycloak-24.0.1.tar.gz
-RUN rm keycloak-24.0.1.tar.gz
+RUN wget https://github.com/keycloak/keycloak/releases/download/24.0.2/keycloak-24.0.2.tar.gz
+RUN tar zxvf keycloak-24.0.2.tar.gz
+RUN rm keycloak-24.0.2.tar.gz
 ENV KEYCLOAK_ADMIN=admin
 ENV KEYCLOAK_ADMIN_PASSWORD=KYC_PASS
-WORKDIR /home/pat/src/keycloak-24.0.1/
-# COPY keycloak/keycloak.conf /home/pat/src/keycloak-24.0.1/conf
+WORKDIR /home/pat/src/keycloak-24.0.2/
+# COPY keycloak/keycloak.conf /home/pat/src/keycloak-24.0.2/conf
 RUN ./bin/kc.sh --verbose build
 # COPY keycloak/keycloak.service /etc/systemd/system/
-# need to run it with ./binkc.sh --verbose start or start-dev
+# need to run it with ./bin/kc.sh --verbose start or start-dev
 
 RUN mkdir -p         		/home/pat/src/sh
 RUN mkdir -p         		/home/pat/src/pat
