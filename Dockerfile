@@ -58,9 +58,15 @@ ENV KEYCLOAK_ADMIN=admin
 ENV KEYCLOAK_ADMIN_PASSWORD=KYC_PASS
 WORKDIR /home/pat/src/keycloak-24.0.2/
 # COPY keycloak/keycloak.conf /home/pat/src/keycloak-24.0.2/conf
+COPY keycloak/realm-import.json /home/pat/src/keycloak-24.0.2/conf
 RUN ./bin/kc.sh --verbose build
 # COPY keycloak/keycloak.service /etc/systemd/system/
-# need to run it with ./bin/kc.sh --verbose start or start-dev
+
+# one-time setup (manual, devel)
+# bin/kc.sh --verbose start-dev --server http://localhost:8081 --realm master --user admin
+# bin/kcadm.sh config credentials --server http://localhost:8081 --realm master --user admin
+# TODO: substitute hostname etc in realm-import.json
+# bin/kcadm.sh create realms -f realm-import.json --server http://localhost:8081
 
 RUN mkdir -p         		/home/pat/src/sh
 RUN mkdir -p         		/home/pat/src/pat
