@@ -5,14 +5,24 @@
     {
       "clientId": "patServer",
       "enabled": true,
+      "redirectUris": [
+        "http://192.168.1.106:8080/api/*"
+      ],
+      "webOrigins": [
+        "+"
+      ],
       "bearerOnly": false
     },
     {
       "clientId": "patClient",
       "enabled": true,
       "publicClient": true,
+      "redirectUris": [
+        "http://192.168.1.106:3000/*",
+        "http://localhost:3000/*"
+      ],
       "webOrigins": [
-         "+"
+         "*"
       ],
       "directAccessGrantsEnabled": true
     }
