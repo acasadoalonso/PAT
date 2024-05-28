@@ -5,15 +5,8 @@
     {
       "clientId": "patServer",
       "enabled": true,
-      "name": "patServer",
-      "description": "The pat daemon sering the request and running on the 8080 port",
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
       "redirectUris": [
-        "http://172.19.0.2:8080/api/*",
-        "http://pat:8080/api/*",
-        "http://192.168.1.5:8080/api/*"
+        "http://192.168.1.106:8080/api/*"
       ],
       "webOrigins": [
         "+"
@@ -24,15 +17,9 @@
       "clientId": "patClient",
       "enabled": true,
       "publicClient": true,
-      "name": "patClient ",
-      "description": "The client receiving the PAT request running on port 3000",
       "redirectUris": [
-        "http://192.168.1.5:3000/*",
-        "http://localhost:3000/*",
-        "http://192.168.1.14:3003/*",
-        "http://172.19.0.2:3000/*",
-        "http://localhost:3003/*",
-        "http://pat:3000/*"
+        "http://192.168.1.106:3000/*",
+        "http://localhost:3000/*"
       ],
       "webOrigins": [
          "*"
@@ -86,4 +73,3 @@
     ]
   }
 }
-

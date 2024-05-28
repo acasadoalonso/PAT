@@ -24,12 +24,13 @@ cleanbu:
 	docker rmi ${IMAGE_NAME} 
 	docker images
 run:
-	mkdir -p  ./proxdata
-	chmod 775 ./proxdata
+	mkdir -p  ./dockerdata
+	chmod 775 ./dockerdata
 	- docker ps -a
 	- docker stop patc
 	- docker rm patc
-	docker  run -ti --net mynetpat --ip 172.19.0.2 -p 3003:3000 --restart unless-stopped --name patc --hostname PATdock -v ./proxdata:/home/pat/src/pat pat 
+	- docker network create --subnet=172.19.0.0/16 mynetpat
+	docker  run -ti --net mynetpat --ip 172.19.0.2 -p 3003:3000 -p 8082:8081 --restart unless-stopped --name patc --hostname PATdock -v ./dockerdata:/home/pat/src/pat pat 
 	- docker ps -a
 attach:
 	docker attach patc
