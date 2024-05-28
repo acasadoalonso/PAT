@@ -76,7 +76,7 @@ RUN alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>
 RUN alias startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host 172.19.0.2 --http-port 8081  --http-enabled true  &)'
 run echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'"                           >>/home/pat/.bash_aliases
 run echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log  &)'"    >>/home/pat/.bash_aliases
-RUN echo " startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host 172.19.0.2 --http-port 8081  --http-enabled true  &)'" >>/home/pat/.bash_aliases
+RUN echo "alias startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host 172.19.0.2 --http-port 8081  --http-enabled true >>/tmp/kc.log &)'" >>/home/pat/.bash_aliases
 
 RUN chown pat:pat -R /home/pat
 EXPOSE 80
