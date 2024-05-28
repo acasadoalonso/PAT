@@ -34,6 +34,12 @@ run:
 	- docker ps -a
 attach:
 	docker attach patc
+	# after attach
+	# su pat
+	# bash sh/instondocker.sh
+	# pat
+	# on browser localhost:8082       	# for the keycload console
+	# on browser localhost:3003		# for the PAT 
 start:
 	docker start  patc &
 exec:

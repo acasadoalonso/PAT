@@ -1,6 +1,9 @@
 {
   "realm": "cpas",
   "enabled": true,
+  "displayName": "CPAS",
+  "displayNameHtml": "Proximity Analysis Tool",
+  "sslRequired": "none",
   "clients": [
     {
       "clientId": "patServer",
@@ -57,11 +60,26 @@
       }
     },
     {
+      "username" : "patuser",
+      "enabled": true,
+      "email" : "alice@keycloak.org",
+      "firstName": "Pat",
+      "lastName": "User",
+      "credentials" : [
+        { "type" : "password",
+          "value" : "patpat" }
+      ],
+      "realmRoles": [ "user", "offline_access"  ],
+      "clientRoles": {
+        "account": [ "manage-account" ]
+      }
+    },
+    {
       "username" : "admin",
       "enabled": true,
       "email" : "test@admin.org",
       "firstName": "Admin",
-      "lastName": "Test",
+      "lastName": "Administrator",
       "credentials" : [
         { "type" : "password",
           "value" : "admin" }

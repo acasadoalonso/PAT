@@ -49,41 +49,39 @@ RUN mkdir -p         		/home/pat/src
 
 # install keycloak and deps for authentication
 RUN mkdir -p         		/home/pat/keycloak
+WORKDIR              		/home/pat/src/
 RUN echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
 ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 RUN wget https://github.com/keycloak/keycloak/releases/download/24.0.2/keycloak-24.0.2.tar.gz
 RUN tar zxvf keycloak-24.0.2.tar.gz
 RUN rm keycloak-24.0.2.tar.gz
 ENV KEYCLOAK_ADMIN=admin
-ENV KEYCLOAK_ADMIN_PASSWORD=KYC_PASS
+ENV KEYCLOAK_ADMIN_PASSWORD=admin
 WORKDIR /home/pat/src/keycloak-24.0.2/
 # COPY keycloak/keycloak.conf /home/pat/src/keycloak-24.0.2/conf
 COPY keycloak/realm-import.json /home/pat/src/keycloak-24.0.2/conf
-RUN ./bin/kc.sh --verbose build
-# COPY keycloak/keycloak.service /etc/systemd/system/
-
-# one-time setup (manual, devel)
-# bin/kc.sh --verbose start-dev --server http://localhost:8081 --realm master --user admin
-# bin/kcadm.sh config credentials --server http://localhost:8081 --realm master --user admin
-# TODO: substitute hostname etc in realm-import.json
-# bin/kcadm.sh create realms -f realm-import.json --server http://localhost:8081
 
 RUN mkdir -p         		/home/pat/src/sh
 RUN mkdir -p         		/home/pat/src/pat
 WORKDIR              		/home/pat/src/pat
+# instondocker is the script to run after building the image
 COPY instondocker.sh 		/home/pat/src/sh/instondocker.sh
 COPY archive/mytoken.txt     	/home/pat/src/mytoken.txt    
 COPY meshi.sh        		/home/pat/src/sh/meshi.sh    
-RUN echo "(cd /home/pat/src/pat/patServer && bash runme.sh &)"                                              >/home/pat/src/runpat.sh
+copy runpat.sh                  /home/pat/src/sh/runpat.sh
+copy runkc.sh                   /home/pat/src/sh/runkc.sh
 RUN echo "(cd /usr/local/mesh_daemons/meshagent/ && ./meshagent --installedByUser=0)"                       >/home/pat/src/sh/meshstart.sh 
 RUN alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'
 RUN alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log  &)'
+RUN alias startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host 172.19.0.2 --http-port 8081  --http-enabled true  &)'
 run echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'"                           >>/home/pat/.bash_aliases
 run echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log  &)'"    >>/home/pat/.bash_aliases
+RUN echo " startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host 172.19.0.2 --http-port 8081  --http-enabled true  &)'" >>/home/pat/.bash_aliases
 
 RUN chown pat:pat -R /home/pat
 EXPOSE 80
 EXPOSE 3000
+EXPOSE 8081
 EXPOSE 22
 RUN touch PATinstallation.done	
 STOPSIGNAL SIGTERM
