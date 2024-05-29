@@ -42,7 +42,7 @@ cd /home/pat/src/keycloak-24.0.2
 ./bin/kc.sh --verbose build
 ./bin/kc.sh --verbose start-dev --http-port 8081 &
 echo "Wait 90 seconds ....."
-sleep 90a
+sleep 90
 echo "Create the CPAS realm"
 echo
 echo
