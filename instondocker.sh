@@ -7,6 +7,9 @@ echo
 echo "Installation on DOCKER "
 echo "======================="
 echo
+export CONTAINERIP=$(getent hosts "$(hostname)" | awk '{ print $1 }' | head -n1)
+echo "Container IP:  "$CONTAINERIP
+echo "============================"
 date
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -40,21 +43,21 @@ chown pat:pat -R .
 chmod 775 -R .
 cd /home/pat/src/keycloak-24.0.2
 ./bin/kc.sh --verbose build
-./bin/kc.sh --verbose start-dev --http-port 8081 &
+./bin/kc.sh --verbose start-dev --http-port 8081 --https-client-auth none &
 echo "Wait 90 seconds ....."
 sleep 90
 echo "Create the CPAS realm"
 echo
 echo
-./bin/kcadm.sh config credentials --server http://172.19.0.2:8081 --realm master --user admin
-./bin/kcadm.sh create realms -f conf/realm-import.json --server http://172.19.0.2:8081
+./bin/kcadm.sh config credentials --server http://$CONTAINERIP:8081 --realm master --user admin
+./bin/kcadm.sh create realms -f conf/realm-import.json --server http://$CONTAINERIP:8081
 cd ..
 # change the IP addr from John's IP to the docker container IP
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patServer/Server/package.json
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patServer/Server/keycloak.json
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/package.json
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/public/keycloak.json
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/.env
+sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patServer/Server/package.json
+sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patServer/Server/keycloak.json
+sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patClient/package.json
+sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patClient/public/keycloak.json
+sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patClient/.env
 sed -i 's/dev.soaring/www.soaring/'  ./pat/patServer/Server/server/params.js
 sudo chown pat:pat /home/pat/. -R
 sudo chmod 775 -R  /home/pat/.

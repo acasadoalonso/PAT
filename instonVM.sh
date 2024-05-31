@@ -5,11 +5,12 @@
 # Requirements a VM or LXC with 16Gb storage and 2048 Mb memory
 #
 date
-# <<<<<<<<<<<<<<<<<  update those values first >>>>>>>>>>
-export PATHOST='192.168.1.6'
-export KCHOST='192.168.1.6'
+# <<<<<<<<<<<<<<<<<  CHECK those values first >>>>>>>>>>
+export PATHOST=$(getent hosts "$(hostname)" | awk '{ print $1 }' | tail -n1)
+export KCHOST=$(getent hosts "$(hostname)"  | awk '{ print $1 }' | tail -n1)
 echo "Host IP addr:      "$PATHOST
 echo "Keycloak IP addr:  "$KCHOST
+echo "========================================"
 echo
 ##################################################
 sudo apt update
@@ -62,7 +63,7 @@ alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
 alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
 echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                                                       >>~/.bash_aliases
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                                                 >>~/.bash_aliases
-echo "alias startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host $KCHOST --http-port 8081  --http-enabled true  &)'"    >>~/.bash_aliases
+echo "alias startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host $KCHOST --http-port 8081  --http-enabled true --https-client-auth none &)'"    >>~/.bash_aliases
 echo 
 cd   ~/src/pat
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env.development.local
