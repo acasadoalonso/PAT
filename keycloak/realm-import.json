@@ -45,14 +45,14 @@
   ],
   "users" : [
     {
-      "username" : "alice",
+      "username" : "igc",
       "enabled": true,
-      "email" : "alice@keycloak.org",
-      "firstName": "Alice",
-      "lastName": "Liddel",
+      "email" : "igc@fai.org",
+      "firstName": "Pat",
+      "lastName": "IGC",
       "credentials" : [
         { "type" : "password",
-          "value" : "alice" }
+          "value" : "igcigc" }
       ],
       "realmRoles": [ "user", "offline_access"  ],
       "clientRoles": {
@@ -62,7 +62,7 @@
     {
       "username" : "patuser",
       "enabled": true,
-      "email" : "alice@keycloak.org",
+      "email" : "patuser@fai.org",
       "firstName": "Pat",
       "lastName": "User",
       "credentials" : [
@@ -77,7 +77,7 @@
     {
       "username" : "admin",
       "enabled": true,
-      "email" : "test@admin.org",
+      "email" : "admin@fai.org",
       "firstName": "Admin",
       "lastName": "Administrator",
       "credentials" : [
