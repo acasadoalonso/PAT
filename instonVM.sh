@@ -4,7 +4,10 @@
 #
 # Requirements a VM or LXC with 16Gb storage and 2048 Mb memory
 #
+KCversion='25.0.2'
 date
+echo "Runninng "$(basename "$0")
+echo "Intalling PAT and KeyCloack version: "$KCversion
 # <<<<<<<<<<<<<<<<<  CHECK those values first >>>>>>>>>>
 export PATHOST=$(getent hosts "$(hostname)" | awk '{ print $1 }' | tail -n1)
 export KCHOST=$(getent hosts "$(hostname)"  | awk '{ print $1 }' | tail -n1)
@@ -63,7 +66,13 @@ alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
 alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
 echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                                                       >>~/.bash_aliases
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                                                 >>~/.bash_aliases
-echo "alias startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host $KCHOST --http-port 8081  --http-enabled true --https-client-auth none &)'"    >>~/.bash_aliases
+if [[ $KCversion == '25.0.2' ]]
+then
+    echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
+else
+
+    echo "alias kcstart='(export KEYCLOAK_ADMIN=admin && export KEYCLOAK_ADMIN_PASSWORD=benalla && sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname=http://$KCHOST:8081 --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
+fi
 echo 
 cd   ~/src/pat
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env.development.local
@@ -78,15 +87,15 @@ echo
 echo "Get the KeyCloak source ..."
 echo
 echo
-wget https://github.com/keycloak/keycloak/releases/download/24.0.2/keycloak-24.0.2.tar.gz
-tar zxvf keycloak-24.0.2.tar.gz
-rm       keycloak-24.0.2.tar.gz
+wget https://github.com/keycloak/keycloak/releases/download/$KCversion/keycloak-$KCversion.tar.gz
+tar zxvf keycloak-$KCversion.tar.gz
+rm       keycloak-$KCversion.tar.gz
 export KEYCLOAK_ADMIN=admin
 export KEYCLOAK_ADMIN_PASSWORD=admin
-cd ~/src/keycloak-24.0.2/
+cd ~/src/keycloak-$KCversion/
 # COPY the very basic REALM
-sed -i "s/192.168.1.5/$PATHOST/" ../keycloak/realm-import.json
-cp                               ../keycloak/realm-import.json ~/src/keycloak-24.0.2/conf
+sed -i "s/192.168.1.5/$PATHOST/" ../keycloak/realm-cpas.json
+cp                               ../keycloak/realm-cpas.json ~/src/keycloak-$KCversion/conf
 echo 
 echo "Build Keycloak"
 echo
@@ -94,7 +103,7 @@ echo
 echo 
 echo "Start Keycloak"
 echo
-./bin/kc.sh --verbose start-dev --http-port 8081 --https-client-auth NONE &
+./bin/kc.sh --verbose start-dev --http-port 8081 --https-client-auth none &
 echo
 echo
 echo "Wait 90 seconds ..... untill KC has started ..."
@@ -107,7 +116,7 @@ echo
 echo
 echo
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
-./bin/kcadm.sh create realms -f conf/realm-import.json --server http://$KCHOST:8081
+./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$KCHOST:8081
 ./bin/kcadm.sh get realms --fields id,realm,enabled,displayName,displayNameHtml
 echo
 echo
@@ -120,6 +129,8 @@ sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/public/keycloak.json
 sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/.env
 sed -i "s/dev.soaring/www.soaring/"  ./pat/patServer/Server/server/params.js
 cd
+echo "Updating mode and owner ..."
+echo "==========================="
 sudo chown $USER:$USER . -R
 sudo chmod 775 -R  .
 echo

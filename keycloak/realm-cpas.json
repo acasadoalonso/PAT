@@ -1,0 +1,185 @@
+
+{
+  "realm": "cpas",
+  "enabled": true,
+  "displayName": "PAT admin (CPAS)",
+  "displayNameHtml": "Proximity Analysis Tool - Login",
+  "sslRequired": "none",
+  "roles": {
+    "realm": [
+      {
+        "id": "0fee5610-5513-4a93-a005-50859b30c311",
+        "name": "default-roles-cpas",
+        "description": "${role_default-roles}",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "offline_access",
+            "uma_authorization"
+          ],
+          "client": {
+            "account": [
+              "manage-account",
+              "view-profile"
+            ]
+          }
+        },
+        "clientRole": false,
+        "containerId": "78348dc3-1dc3-4cd5-b9ad-4c5f20d5a239",
+        "attributes": {}
+      },
+      {
+        "id": "28a2bf6b-161c-40f3-be3a-8fa7fcf8cc26",
+        "name": "user",
+        "description": "User privileges",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "78348dc3-1dc3-4cd5-b9ad-4c5f20d5a239",
+        "attributes": {}
+      },
+      {
+        "id": "4a7a6300-3e5f-4446-9079-d98bef3ca18b",
+        "name": "admin",
+        "description": "Administrator privileges",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "78348dc3-1dc3-4cd5-b9ad-4c5f20d5a239",
+        "attributes": {}
+      },
+      {
+        "id": "c578f92a-9bac-4fb7-a1d6-437644f71213",
+        "name": "uma_authorization",
+        "description": "${role_uma_authorization}",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "78348dc3-1dc3-4cd5-b9ad-4c5f20d5a239",
+        "attributes": {}
+      },
+      {
+        "id": "186de5de-c9d6-4c69-8154-24293c3d7cff",
+        "name": "offline_access",
+        "description": "${role_offline-access}",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "78348dc3-1dc3-4cd5-b9ad-4c5f20d5a239",
+        "attributes": {}
+      }
+    ]
+  },
+  "groups": [
+    {
+      "name": "PAT users",
+      "path": "/PAT users",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {}
+    }
+  ],
+  "requiredCredentials": [
+    "password"
+  ],
+  "clients": [
+    {
+      "clientId": "patServer",
+      "enabled": true,
+      "name": "patServer",
+      "description": "The pat daemon sering the request and running on the 8080 port",
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [
+        "http://172.19.0.2:8080/api/*",
+        "http://pat:8080/api/*",
+        "http://192.168.1.5:8080/api/*",
+        "http://192.168.1.6:8080/api/*"
+      ],
+      "webOrigins": [
+        "+"
+      ],
+      "bearerOnly": false
+    },
+    {
+      "clientId": "patClient",
+      "enabled": true,
+      "publicClient": true,
+      "name": "patClient ",
+      "description": "The client receiving the PAT request running on port 3000",
+      "redirectUris": [
+        "http://192.168.1.5:3000/*",
+        "http://192.168.1.6:3000/*",
+        "http://localhost:3000/*",
+        "http://172.19.0.2:3000/*",
+        "http://pat:3000/*"
+      ],
+      "webOrigins": [
+         "*"
+      ],
+      "directAccessGrantsEnabled": true
+    }
+  ],
+  "users" : [
+    {
+      "username" : "igc",
+      "enabled": true,
+      "email" : "igc@fai.org",
+      "firstName": "Pat",
+      "lastName": "IGC",
+      "credentials" : [
+        { "type" : "password",
+          "value" : "igcigc" }
+      ],
+      "realmRoles": [ "user", "offline_access"  ]
+    },
+    {
+      "username" : "patuser",
+      "enabled": true,
+      "email" : "patuser@fai.org",
+      "firstName": "Pat",
+      "lastName": "User",
+      "credentials" : [
+        { "type" : "password",
+          "value" : "patpat" }
+      ],
+      "realmRoles": [ "user", "offline_access"  ]
+    },
+    {
+      "username" : "admin",
+      "enabled": true,
+      "email" : "admin@fai.org",
+      "firstName": "Admin",
+      "lastName": "Administrator",
+      "credentials" : [
+        { "type" : "password",
+          "value" : "admin" }
+      ],
+      "realmRoles": [ "user","admin" ],
+      "clientRoles": {
+        "realm-management": [ "realm-admin" ],
+        "account": [ "manage-account" ]
+      }
+    }
+  ],
+  "roles" : {
+    "realm" : [
+      {
+        "name": "user",
+        "description": "User privileges"
+      },
+      {
+        "name": "admin",
+        "description": "Administrator privileges"
+      },
+      {
+        "name": "uma_authorization",
+        "description": "role_uma_authorization",
+        "composite": false
+      },
+      {
+        "name": "offline_access",
+        "description": "role_offline-access"
+      }
+    ]
+  }
+}
+
