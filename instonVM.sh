@@ -66,12 +66,13 @@ alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
 alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
 echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                                                       >>~/.bash_aliases
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                                                 >>~/.bash_aliases
+echo "alias status='(echo ">>>>>";pgrep -a node;echo "====";pgrep -a java;echo "__________________")'"                               >>~/.bash_aliases
 if [[ $KCversion == '25.0.2' ]]
 then
     echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
 else
 
-    echo "alias kcstart='(export KEYCLOAK_ADMIN=admin && export KEYCLOAK_ADMIN_PASSWORD=benalla && sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname=http://$KCHOST:8081 --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
+    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='benalla' && sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
 fi
 echo 
 cd   ~/src/pat
@@ -117,7 +118,12 @@ echo
 echo
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
 ./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$KCHOST:8081
-./bin/kcadm.sh get realms --fields id,realm,enabled,displayName,displayNameHtml
+./bin/kcadm.sh get realms   --fields id,realm,enabled,displayName,displayNameHtml
+./bin/kcadm.sh get users    -r cpas
+./bin/kcadm.sh get clients  -r cpas
+./bin/kcadm.sh get roles    -r cpas
+./bin/kcadm.sh get groups   -r cpas
+
 echo
 echo
 cd ..

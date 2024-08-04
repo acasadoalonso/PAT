@@ -1,0 +1,57 @@
+[ {
+  "id" : "2eba505c-34a5-454e-8f18-22ba4fb35532",
+  "name" : "admin",
+  "description" : "Administrator privileges",
+  "composite" : false,
+  "clientRole" : false,
+  "containerId" : "16447d9d-a359-41ed-a84b-d04491e44c23"
+}, {
+  "id" : "87f14994-86ca-4987-adfd-b7762d2b46e3",
+  "name" : "default-roles-cpas",
+  "description" : "${role_default-roles}",
+  "composite" : true,
+  "clientRole" : false,
+  "containerId" : "16447d9d-a359-41ed-a84b-d04491e44c23"
+}, {
+  "id" : "df36fd5b-f63d-45b8-8a33-e7d62ced2355",
+  "name" : "uma_authorization",
+  "description" : "role_uma_authorization",
+  "composite" : false,
+  "clientRole" : false,
+  "containerId" : "16447d9d-a359-41ed-a84b-d04491e44c23"
+}, {
+  "id" : "e2900a71-77b9-41e9-9725-d0dc3d5f9585",
+  "name" : "offline_access",
+  "description" : "${role_offline-access}",
+  "composite" : false,
+  "clientRole" : false,
+  "containerId" : "16447d9d-a359-41ed-a84b-d04491e44c23"
+}, {
+  "id" : "7974737c-4667-4926-9bee-58d7aa6f78dc",
+  "name" : "user_Spain",
+  "description" : "The spaniards ",
+  "composite" : false,
+  "clientRole" : false,
+  "containerId" : "16447d9d-a359-41ed-a84b-d04491e44c23"
+}, {
+  "id" : "9dd72df0-b69d-4197-8462-dd91c1b77b7e",
+  "name" : "user_Australia",
+  "description" : "The aussies",
+  "composite" : false,
+  "clientRole" : false,
+  "containerId" : "16447d9d-a359-41ed-a84b-d04491e44c23"
+}, {
+  "id" : "acf0c638-7ad9-4bb3-9c74-62397511cf20",
+  "name" : "user_France",
+  "description" : "The French",
+  "composite" : false,
+  "clientRole" : false,
+  "containerId" : "16447d9d-a359-41ed-a84b-d04491e44c23"
+}, {
+  "id" : "b9aef64c-d1c8-42b5-a7d0-96559a4645ae",
+  "name" : "user",
+  "description" : "User privileges",
+  "composite" : false,
+  "clientRole" : false,
+  "containerId" : "16447d9d-a359-41ed-a84b-d04491e44c23"
+} ]

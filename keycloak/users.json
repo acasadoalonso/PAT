@@ -1,0 +1,81 @@
+[ {
+  "id" : "785a63c4-855a-4a5f-8ae4-f67690f4d5af",
+  "username" : "admin",
+  "firstName" : "Admin",
+  "lastName" : "Admin",
+  "email" : "admin@acasado.es",
+  "emailVerified" : false,
+  "createdTimestamp" : 1722621330999,
+  "enabled" : true,
+  "totp" : false,
+  "disableableCredentialTypes" : [ ],
+  "requiredActions" : [ ],
+  "notBefore" : 0,
+  "access" : {
+    "manageGroupMembership" : true,
+    "view" : true,
+    "mapRoles" : true,
+    "impersonate" : true,
+    "manage" : true
+  }
+}, {
+  "id" : "3c9ea205-6f79-4082-b18b-4d80d4cfd7e9",
+  "username" : "angel",
+  "firstName" : "Angel",
+  "lastName" : "Casado",
+  "email" : "acasado@acm.org",
+  "emailVerified" : false,
+  "createdTimestamp" : 1722620890178,
+  "enabled" : true,
+  "totp" : false,
+  "disableableCredentialTypes" : [ ],
+  "requiredActions" : [ ],
+  "notBefore" : 0,
+  "access" : {
+    "manageGroupMembership" : true,
+    "view" : true,
+    "mapRoles" : true,
+    "impersonate" : true,
+    "manage" : true
+  }
+}, {
+  "id" : "d36f8b3e-b109-417d-95c8-892d254e46a7",
+  "username" : "john",
+  "firstName" : "John",
+  "lastName" : "Wharington",
+  "email" : "jwharington@gmail.com",
+  "emailVerified" : false,
+  "createdTimestamp" : 1722620864705,
+  "enabled" : true,
+  "totp" : false,
+  "disableableCredentialTypes" : [ ],
+  "requiredActions" : [ ],
+  "notBefore" : 0,
+  "access" : {
+    "manageGroupMembership" : true,
+    "view" : true,
+    "mapRoles" : true,
+    "impersonate" : true,
+    "manage" : true
+  }
+}, {
+  "id" : "b67ac000-9326-463c-918a-058c2d06b5fd",
+  "username" : "tadmin",
+  "firstName" : "Admin",
+  "lastName" : "Admin",
+  "email" : "tadmin@acasado.es",
+  "emailVerified" : false,
+  "createdTimestamp" : 1722708107237,
+  "enabled" : true,
+  "totp" : false,
+  "disableableCredentialTypes" : [ ],
+  "requiredActions" : [ ],
+  "notBefore" : 0,
+  "access" : {
+    "manageGroupMembership" : true,
+    "view" : true,
+    "mapRoles" : true,
+    "impersonate" : true,
+    "manage" : true
+  }
+} ]
