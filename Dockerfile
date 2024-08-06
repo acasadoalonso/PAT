@@ -1,6 +1,7 @@
 FROM ubuntu:jammy
 USER root
 VOLUME /home/pat/src/pat
+ENV KCversion='25.0.2'
 RUN echo 'APT::Install-Suggests "0";' >> /etc/apt/apt.conf.d/00-docker
 RUN echo 'APT::Install-Recommends "0";' >> /etc/apt/apt.conf.d/00-docker
 ENV DEBIAN_FRONTEND=noninteractive 
@@ -52,14 +53,15 @@ RUN mkdir -p         		/home/pat/keycloak
 WORKDIR              		/home/pat/src/
 RUN echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
 ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
-RUN wget https://github.com/keycloak/keycloak/releases/download/24.0.2/keycloak-24.0.2.tar.gz
-RUN tar zxvf keycloak-24.0.2.tar.gz
-RUN rm keycloak-24.0.2.tar.gz
+RUN wget https://github.com/keycloak/keycloak/releases/download/$KCversion/keycloak-$KCversion.tar.gz
+RUN tar zxvf keycloak-$KCversion.tar.gz
+RUN rm keycloak-$KCversion.tar.gz
 ENV KEYCLOAK_ADMIN=admin
 ENV KEYCLOAK_ADMIN_PASSWORD=admin
-WORKDIR /home/pat/src/keycloak-24.0.2/
-# COPY keycloak/keycloak.conf /home/pat/src/keycloak-24.0.2/conf
-COPY keycloak/realm-import.json /home/pat/src/keycloak-24.0.2/conf
+WORKDIR /home/pat/src/keycloak-$KCversion/
+# COPY keycloak/keycloak.conf /home/pat/src/keycloak-$KCversion/conf
+#COPY keycloak/realm-import.json /home/pat/src/keycloak-$KCversion/conf
+COPY keycloak/* /home/pat/src/keycloak-25.0.2/conf
 
 RUN mkdir -p         		/home/pat/src/sh
 RUN mkdir -p         		/home/pat/src/pat
@@ -68,14 +70,14 @@ WORKDIR              		/home/pat/src/pat
 COPY instondocker.sh 		/home/pat/src/sh/instondocker.sh
 COPY archive/mytoken.txt     	/home/pat/src/mytoken.txt    
 COPY meshi.sh        		/home/pat/src/sh/meshi.sh    
-copy runpat.sh                  /home/pat/src/sh/runpat.sh
-copy runkc.sh                   /home/pat/src/sh/runkc.sh
+COPY runpat.sh                  /home/pat/src/sh/runpat.sh
+COPY runkc.sh                   /home/pat/src/sh/runkc.sh
 RUN echo "(cd /usr/local/mesh_daemons/meshagent/ && ./meshagent --installedByUser=0)"                       >/home/pat/src/sh/meshstart.sh 
 RUN alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'
 RUN alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log  &)'
-RUN alias startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host 172.19.0.2 --http-port 8081  --http-enabled true  &)'
-run echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'"                           >>/home/pat/.bash_aliases
-run echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log  &)'"    >>/home/pat/.bash_aliases
+RUN alias startkc='(sudo ~/src/$KCversion/bin/kc.sh --verbose start-dev --http-host 172.19.0.2 --http-port 8081  --http-enabled true  &)'
+RUN echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'"                           >>/home/pat/.bash_aliases
+RUN echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log  &)'"    >>/home/pat/.bash_aliases
 RUN echo "alias startkc='(sudo ~/src/*2/bin/kc.sh --verbose start-dev --http-host 172.19.0.2 --http-port 8081  --http-enabled true >>/tmp/kc.log &)'" >>/home/pat/.bash_aliases
 
 RUN chown pat:pat -R /home/pat
@@ -83,7 +85,9 @@ EXPOSE 80
 EXPOSE 3000
 EXPOSE 8081
 EXPOSE 22
+RUN echo "============================================================"
 RUN touch PATinstallation.done	
+RUN echo "============================================================"
 STOPSIGNAL SIGTERM
 ENV USER=pat
 WORKDIR           /home/pat/src/

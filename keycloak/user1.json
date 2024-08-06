@@ -1,0 +1,21 @@
+ {
+  "id" : "785a63c4-855a-4a5f-8ae4-f67690f4d5af",
+  "username" : "admin",
+  "firstName" : "Admin",
+  "lastName" : "Admin",
+  "email" : "admin@acasado.es",
+  "emailVerified" : false,
+  "createdTimestamp" : 1722621330999,
+  "enabled" : true,
+  "totp" : false,
+  "disableableCredentialTypes" : [ ],
+  "requiredActions" : [ ],
+  "notBefore" : 0,
+  "access" : {
+    "manageGroupMembership" : true,
+    "view" : true,
+    "mapRoles" : true,
+    "impersonate" : true,
+    "manage" : true
+  }
+}

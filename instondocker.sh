@@ -3,6 +3,7 @@
 #
 # Requirements a VM or LXC with 16Gb storage and 2048 Mb memory
 #
+export KCversion='25.0.2'
 echo
 echo "Installation on DOCKER "
 echo "======================="
@@ -41,7 +42,7 @@ echo "PAT installation done ..."
 cd       /home/pat/
 chown pat:pat -R .
 chmod 775 -R .
-cd /home/pat/src/keycloak-24.0.2
+cd /home/pat/src/keycloak-$KCversion
 ./bin/kc.sh --verbose build
 ./bin/kc.sh --verbose start-dev --http-port 8081 --https-client-auth none &
 echo "Wait 90 seconds ....."
@@ -50,7 +51,7 @@ echo "Create the CPAS realm"
 echo
 echo
 ./bin/kcadm.sh config credentials --server http://$CONTAINERIP:8081 --realm master --user admin
-./bin/kcadm.sh create realms -f conf/realm-import.json --server http://$CONTAINERIP:8081
+./bin/kcadm.sh create realms -f conf/realm-full.json --server http://$CONTAINERIP:8081
 cd ..
 # change the IP addr from John's IP to the docker container IP
 sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patServer/Server/package.json
@@ -58,7 +59,7 @@ sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patServer/Server/keycloak.json
 sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patClient/package.json
 sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patClient/public/keycloak.json
 sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patClient/.env
-sed -i 's/dev.soaring/www.soaring/'  ./pat/patServer/Server/server/params.js
+sed -i 's/dev.soaring/www.soaring/'    ./pat/patServer/Server/server/params.js
 sudo chown pat:pat /home/pat/. -R
 sudo chmod 775 -R  /home/pat/.
 echo

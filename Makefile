@@ -12,7 +12,7 @@ PATPORT := 3003:3000				# port used by the PAT client
 KCPORT := 8082:8081				# port used by the Keycloak console
 
 dev:
-	docker build --no-cache=false -t ${IMAGE_NAME} .
+	docker build --no-cache=true -t ${IMAGE_NAME} .
 
 build :
 	docker build --no-cache=false -t ${IMAGE_NAME}:$(FULL_VERSION)  .
