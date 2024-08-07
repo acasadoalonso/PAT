@@ -66,7 +66,23 @@ alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
 alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
 echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                                                       >>~/.bash_aliases
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                                                 >>~/.bash_aliases
+echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                                                 >>~/.bash_aliases
 echo "alias status='(echo ">>>>>";pgrep -a node;echo "====";pgrep -a java;echo "__________________")'"                               >>~/.bash_aliases
+echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
+echo "export KEYCLOAK_ADMIN_PASSWORD='admin'"                                                         >>~/.profile
+echo "neofetch      "                                                                                 >>~/.profile
+echo '(echo ">>>>>";pgrep -a node;echo "====";pgrep -a java;echo "__________________")'               >>~/.profile
+echo "echo '__________________________________________________________________________________'     " >>~/.profile
+echo "date      "                                                                                     >>~/.profile
+echo "export KCversion="$KCversion                                                                    >>~/.profile
+echo "export PATHOST=$(getent hosts "$(hostname)" | awk '{ print $1 }' | tail -n1)      "             >>~/.profile
+echo "export KCHOST=$(getent hosts "$(hostname)"  | awk '{ print $1 }' | tail -n1)      "             >>~/.profile
+echo 'echo "Host IP addr:      "$PATHOST      '                                                       >>~/.profile
+echo 'echo "Keycloak IP addr:  "$KCHOST      '                                                        >>~/.profile
+echo 'echo "Keycloak Version:  "$KCversion      '                                                     >>~/.profile
+echo 'echo "========================================"      '                                          >>~/.profile
+echo 'echo      '                                                                                     >>~/.profile
+
 if [[ $KCversion == '25.0.2' ]]
 then
     echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
