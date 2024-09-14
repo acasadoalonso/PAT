@@ -70,6 +70,7 @@ WORKDIR              		/home/pat/src/pat
 COPY instondocker.sh 		/home/pat/src/sh/instondocker.sh
 COPY archive/mytoken.txt     	/home/pat/src/mytoken.txt    
 COPY meshi.sh        		/home/pat/src/sh/meshi.sh    
+COPY meshstart.sh        	/home/pat/src/sh/meshstart.sh    
 COPY runpat.sh                  /home/pat/src/sh/runpat.sh
 COPY runkc.sh                   /home/pat/src/sh/runkc.sh
 RUN echo "(cd /usr/local/mesh_daemons/meshagent/ && ./meshagent --installedByUser=0)"                       >/home/pat/src/sh/meshstart.sh 
