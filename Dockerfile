@@ -61,7 +61,7 @@ ENV KEYCLOAK_ADMIN_PASSWORD=admin
 WORKDIR /home/pat/src/keycloak-$KCversion/
 # COPY keycloak/keycloak.conf /home/pat/src/keycloak-$KCversion/conf
 #COPY keycloak/realm-import.json /home/pat/src/keycloak-$KCversion/conf
-COPY keycloak/* /home/pat/src/keycloak-25.0.2/conf
+COPY keycloak/* /home/pat/src/keycloak-$KCversion/conf
 
 RUN mkdir -p         		/home/pat/src/sh
 RUN mkdir -p         		/home/pat/src/pat
