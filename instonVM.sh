@@ -4,6 +4,7 @@
 #
 # Requirements a VM or LXC with 16Gb storage and 2048 Mb memory
 #
+echo 
 KCversion='25.0.2'
 date
 echo "Runninng "$(basename "$0")
@@ -13,6 +14,7 @@ export PATHOST=$(getent hosts "$(hostname)" | awk '{ print $1 }' | tail -n1)
 export KCHOST=$(getent hosts "$(hostname)"  | awk '{ print $1 }' | tail -n1)
 echo "Host IP addr:      "$PATHOST
 echo "Keycloak IP addr:  "$KCHOST
+echo "User:              "$USER
 echo "========================================"
 echo
 ##################################################
@@ -64,10 +66,10 @@ echo
 echo "Setup the aliases ..."
 alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
 alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
-echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                                                       >>~/.bash_aliases
-echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                                                 >>~/.bash_aliases
-echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                                                 >>~/.bash_aliases
-echo "alias status='(echo ">>>>>";pgrep -a node;echo "====";pgrep -a java;echo "__________________")'"                               >>~/.bash_aliases
+echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                         >>~/.bash_aliases
+echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                   >>~/.bash_aliases
+echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                   >>~/.bash_aliases
+echo "alias status='(echo ">>>>>";pgrep -a node;echo "====";pgrep -a java;echo "__________________")'" >>~/.bash_aliases
 echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
 echo "export KEYCLOAK_ADMIN_PASSWORD='admin'"                                                         >>~/.profile
 echo "neofetch      "                                                                                 >>~/.profile
