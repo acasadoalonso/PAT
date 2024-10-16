@@ -13,9 +13,11 @@ This repo contains the information of how to install the PROXIMITY ANALYSIS OOL 
 >
 >bash sh/instondocker.sh
 >
->pat
+>bash sh/runkc.sh
 >
->to run the keycloak console:   on a browser:  localhost:8082
+>bash sh/runpat.sh
+>
+>to run the keycloak console:   on a browser:  localhost:8081
 >
 >to run the PAT                 on a browser:  localhost:3003
 >

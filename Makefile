@@ -8,8 +8,8 @@ MINOR_VERSION := 0.1
 MAJOR_VERSION := 0
 SUBNET := 172.19.0.0			# subnet used
 CONTAINERIP := 172.19.0.2		# IP assigned to the PAT container
-PATPORT := 3003:3000				# port used by the PAT client
-KCPORT := 8082:8081				# port used by the Keycloak console
+PATPORT := 3003:3000			# port used by the PAT client
+KCPORT := 8081:8081			# port used by the Keycloak console
 
 dev:
 	docker build --no-cache=true -t ${IMAGE_NAME} .
@@ -30,12 +30,12 @@ cleanpat:
 	docker rmi ${IMAGE_NAME} 
 	docker images
 run:
-	mkdir -p  ./dockerdata
-	chmod 775 ./dockerdata
-	- docker ps -a
-	- docker stop patc
-	- docker rm patc
-	#- docker network create --subnet=${SUBNET}/16 mynetpat
+	mkdir -p  ./dockerdata		# dokerdata within this directory contains the PAT data
+	chmod 775 ./dockerdata		# be sure that is accesable 
+	- docker ps -a			# show all the containers
+	- docker stop patc		# try to stop it just in case
+	- docker rm patc		# remove it just in case
+	#  Check that the new mynetpat is created -->       docker network create --subnet=${SUBNET}/16 mynetpat
 	docker  run -ti --net mynetpat --ip ${CONTAINERIP} -p ${PATPORT} -p ${KCPORT} --restart unless-stopped --name patc --hostname PATdock -v ./dockerdata:/home/pat/src/pat pat 
 	- docker ps -a
 attach:
@@ -43,7 +43,8 @@ attach:
 	# after attach
 	# su pat
 	# bash sh/instondocker.sh
-	# pat
+	# bash sh/runkc.sh				# run keycloak
+	# bash sh/runpat.sh				# run PAT
 	# on browser localhost:${KCPORT}       		# for the keycload console
 	# on browser localhost:${PATPORT}		# for the PAT 
 start:
