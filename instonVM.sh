@@ -5,16 +5,17 @@
 # Requirements a VM or LXC with 16Gb storage and 2048 Mb memory
 #
 echo 
-KCversion='25.0.2'
+export KCversion='25.0.2'
 date
 echo "Runninng "$(basename "$0")
 echo "Intalling PAT and KeyCloack version: "$KCversion
 # <<<<<<<<<<<<<<<<<  CHECK those values first >>>>>>>>>>
-export PATHOST=$(getent hosts "$(hostname)" | awk '{ print $1 }' | tail -n1)
-export KCHOST=$(getent hosts "$(hostname)"  | awk '{ print $1 }' | tail -n1)
+export PATHOST=$(hostname -I)
+export KCHOST=$(hostname -I)
 echo "Host IP addr:      "$PATHOST
 echo "Keycloak IP addr:  "$KCHOST
 echo "User:              "$USER
+echo "KCversion:         "$KCversion
 echo "========================================"
 echo
 ##################################################
@@ -29,6 +30,7 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 sudo apt-get install -y wget systemd git libarchive-dev  vim inetutils-ping figlet ntpdate ssh sudo openssh-server
 echo 
 echo "Install service programs"
+echo "========================"
 echo 
 sudo apt-get install -y gh gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-dev
 sudo mkdir -p /etc/apt/keyrings
@@ -43,6 +45,7 @@ mkdir -p ~/src/pat
 cd       ~/src/pat
 echo 
 echo "Get the software from John's repo ..."
+echo "====================================="
 echo 
 gh auth login --with-token <../mytoken.txt
 gh repo clone jwharington/patClient
@@ -56,6 +59,7 @@ node --version
 npm  --version
 echo 
 echo "Install the NODE modules needed ...."
+echo "===================================="
 echo 
 cd   ~/src/pat
 (cd patClient;  npm install)
@@ -64,24 +68,28 @@ echo
 #
 echo 
 echo "Setup the aliases ..."
+echo 
 alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
 alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
+echo 
 echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                         >>~/.bash_aliases
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                   >>~/.bash_aliases
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                   >>~/.bash_aliases
-echo "alias status='(echo ">>>>>";pgrep -a node;echo "====";pgrep -a java;echo "__________________")'" >>~/.bash_aliases
+echo "alias status='(pgrep -a node;echo ;pgrep -a java;echo )'"                                        >>~/.bash_aliases
+#
 echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
 echo "export KEYCLOAK_ADMIN_PASSWORD='admin'"                                                         >>~/.profile
 echo "neofetch      "                                                                                 >>~/.profile
-echo '(echo ">>>>>";pgrep -a node;echo "====";pgrep -a java;echo "__________________")'               >>~/.profile
+echo '(echo ;pgrep -a node;echo ;pgrep -a java;echo )'                                                >>~/.profile
 echo "echo '__________________________________________________________________________________'     " >>~/.profile
 echo "date      "                                                                                     >>~/.profile
 echo "export KCversion="$KCversion                                                                    >>~/.profile
-echo "export PATHOST=$(getent hosts "$(hostname)" | awk '{ print $1 }' | tail -n1)      "             >>~/.profile
-echo "export KCHOST=$(getent hosts "$(hostname)"  | awk '{ print $1 }' | tail -n1)      "             >>~/.profile
+echo "export PATHOST=$(hostname -I)      "                                                            >>~/.profile
+echo "export KCHOST=$(hostname -I)       "                                                            >>~/.profile
 echo 'echo "Host IP addr:      "$PATHOST      '                                                       >>~/.profile
 echo 'echo "Keycloak IP addr:  "$KCHOST      '                                                        >>~/.profile
 echo 'echo "Keycloak Version:  "$KCversion      '                                                     >>~/.profile
+echo 'echo "User:              "$USER           '                                                     >>~/.profile
 echo 'echo "========================================"      '                                          >>~/.profile
 echo 'echo      '                                                                                     >>~/.profile
 
@@ -113,8 +121,8 @@ export KEYCLOAK_ADMIN=admin
 export KEYCLOAK_ADMIN_PASSWORD=admin
 cd ~/src/keycloak-$KCversion/
 # COPY the very basic REALM
-sed -i "s/192.168.1.5/$PATHOST/" ../keycloak/realm-cpas.json
-cp                               ../keycloak/realm-cpas.json ~/src/keycloak-$KCversion/conf
+sed -i "s/192.168.1.5/$PATHOST/" ../PAT/keycloak/realm-cpas.json
+cp                               ../PAT/keycloak/realm-cpas.json ~/src/keycloak-$KCversion/conf
 echo 
 echo "Build Keycloak"
 echo
@@ -129,13 +137,16 @@ echo "Wait 90 seconds ..... untill KC has started ..."
 sleep 90
 echo
 echo "Create the CPAS realm"
+echo "====================="
 echo
 echo
 ./bin/kcadm.sh config credentials --server http://$KCHOST:8081 --realm master --user admin
 echo
 echo
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
+# create the ream CPAS 
 ./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$KCHOST:8081
+# check the users
 ./bin/kcadm.sh get realms   --fields id,realm,enabled,displayName,displayNameHtml
 ./bin/kcadm.sh get users    -r cpas
 ./bin/kcadm.sh get clients  -r cpas
