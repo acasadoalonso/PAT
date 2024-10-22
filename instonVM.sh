@@ -10,8 +10,10 @@ date
 echo "Runninng "$(basename "$0")
 echo "Intalling PAT and KeyCloack version: "$KCversion
 # <<<<<<<<<<<<<<<<<  CHECK those values first >>>>>>>>>>
-export PATHOST=$(hostname -I)
-export KCHOST=$(hostname -I)
+export KCversion='25.0.2'
+export PATHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
+export KCHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
+
 echo "Host IP addr:      "$PATHOST
 echo "Keycloak IP addr:  "$KCHOST
 echo "User:              "$USER
@@ -84,8 +86,8 @@ echo '(echo ;pgrep -a node;echo ;pgrep -a java;echo )'                          
 echo "echo '__________________________________________________________________________________'     " >>~/.profile
 echo "date      "                                                                                     >>~/.profile
 echo "export KCversion="$KCversion                                                                    >>~/.profile
-echo "export PATHOST=$(hostname -I)      "                                                            >>~/.profile
-echo "export KCHOST=$(hostname -I)       "                                                            >>~/.profile
+echo "export PATHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)"				      >>~/.profile
+echo "export KCHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)"				      >>~/.profile
 echo 'echo "Host IP addr:      "$PATHOST      '                                                       >>~/.profile
 echo 'echo "Keycloak IP addr:  "$KCHOST      '                                                        >>~/.profile
 echo 'echo "Keycloak Version:  "$KCversion      '                                                     >>~/.profile
@@ -114,12 +116,16 @@ echo
 echo "Get the KeyCloak source ..."
 echo
 echo
-wget https://github.com/keycloak/keycloak/releases/download/$KCversion/keycloak-$KCversion.tar.gz
+wget http://github.com/keycloak/keycloak/releases/download/$KCversion/keycloak-$KCversion.tar.gz
 tar zxvf keycloak-$KCversion.tar.gz
 rm       keycloak-$KCversion.tar.gz
 export KEYCLOAK_ADMIN=admin
 export KEYCLOAK_ADMIN_PASSWORD=admin
 cd ~/src/keycloak-$KCversion/
+pwd
+mkdir -p conf
+# copy the configuration files 
+cp -r ../PAT/keycloak/*  ~/src/keycloak-$KCversion/conf/
 # COPY the very basic REALM
 sed -i "s/192.168.1.5/$PATHOST/" ../PAT/keycloak/realm-cpas.json
 cp                               ../PAT/keycloak/realm-cpas.json ~/src/keycloak-$KCversion/conf
@@ -143,6 +149,7 @@ echo
 ./bin/kcadm.sh config credentials --server http://$KCHOST:8081 --realm master --user admin
 echo
 echo
+pwd
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
 # create the ream CPAS 
 ./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$KCHOST:8081
@@ -152,6 +159,8 @@ echo
 ./bin/kcadm.sh get clients  -r cpas
 ./bin/kcadm.sh get roles    -r cpas
 ./bin/kcadm.sh get groups   -r cpas
+bash ../keycloak/addusers.sh
+pwd
 
 echo
 echo
