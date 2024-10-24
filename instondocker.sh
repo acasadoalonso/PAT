@@ -13,12 +13,14 @@ date
 echo
 echo "User: "$USER
 echo
-export KCversion='25.0.2'
 echo
 echo "Installation on DOCKER "
 echo "======================="
 echo
-export CONTAINERIP=$(getent hosts "$(hostname)" | awk '{ print $1 }' | head -n1)
+export KCversion='25.0.2'
+export PATHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
+export KCHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
+export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
 echo "Container IP:  "$CONTAINERIP
 echo "============================"
 echo
@@ -27,27 +29,22 @@ git config --global --add safe.directory /home/pat/src/pat/patClient
 # check for curl and install it if needed
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 echo
-echo "Install gh ... we need it for authentification of a private github account"
-echo
-curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-&& sudo apt update \
-&& sudo apt install gh -y
-echo
 echo "Install the PAT software from GitHub"
 echo
 cd /home/pat/src/pat
+sudo chmod 775 .
+sudo chown pat:pat .
 rm -rf patServer
 rm -rf patClient
 gh auth login --with-token < ../mytoken.txt
-gh auth refresh -h github.com
+#gh auth refresh -h github.com
 gh repo clone jwharington/patClient
 gh repo clone jwharington/patServer
 cd patServer
 #
 # check the NODE and & NPM versions 
 #
+echo
 echo "NODE & NPM versions ..."
 echo "======================="
 node --version
@@ -73,27 +70,7 @@ echo "Setup the aliases ..."
 echo 
 alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
 alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
-echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                         >>~/.bash_aliases
-echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                   >>~/.bash_aliases
-echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                   >>~/.bash_aliases
-echo "alias status='(echo ">>>>>";pgrep -a node;echo "====";pgrep -a java;echo "__________________")'" >>~/.bash_aliases
 echo
-echo "Setup the profile ..."
-echo
-echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
-echo "export KEYCLOAK_ADMIN_PASSWORD='admin'"                                                         >>~/.profile
-echo "neofetch      "                                                                                 >>~/.profile
-echo '(echo ">>>>>";pgrep -a node;echo "====";pgrep -a java;echo "__________________")'               >>~/.profile
-echo "echo '__________________________________________________________________________________'     " >>~/.profile
-echo "date      "                                                                                     >>~/.profile
-echo "export KCversion="$KCversion                                                                    >>~/.profile
-echo "export PATHOST=$(getent hosts "$(hostname)" | awk '{ print $1 }' | tail -n1)      "             >>~/.profile
-echo "export KCHOST=$(getent hosts "$(hostname)"  | awk '{ print $1 }' | tail -n1)      "             >>~/.profile
-echo 'echo "Host IP addr:      "$PATHOST      '                                                       >>~/.profile
-echo 'echo "Keycloak IP addr:  "$KCHOST      '                                                        >>~/.profile
-echo 'echo "Keycloak Version:  "$KCversion      '                                                     >>~/.profile
-echo 'echo "========================================"      '                                          >>~/.profile
-echo 'echo      '                                                                                     >>~/.profile
 ###########################################################################################################
 echo
 echo "Start the keycloak system"
@@ -103,14 +80,22 @@ cd /home/pat/src/keycloak-$KCversion
 ./bin/kc.sh --verbose start-dev --http-port 8081 --https-client-auth none &
 echo "Wait 90 seconds ....."
 sleep 90
+./bin/kc.sh show-config
 if [[ $CONTAINERIP == '' ]] ; then
-	export CONTAINERIP=$(getent hosts "$(hostname)" | awk '{ print $1 }' | head -n1)
+        export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
 	echo "Container IP:  "$CONTAINERIP
 	echo "============================"
 fi
+echo 
+echo "Container IP: "$CONTAINERIP
+echo
 echo
 echo "Create the CPAS realm"
 echo
+echo
+pwd
+echo
+echo "The password for admin is admin ... "
 echo
 ./bin/kcadm.sh config credentials --server http://$CONTAINERIP:8081 --realm master --user admin
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
@@ -120,16 +105,22 @@ echo
 ./bin/kcadm.sh get clients  -r cpas
 ./bin/kcadm.sh get roles    -r cpas
 ./bin/kcadm.sh get groups   -r cpas
+bash ./conf/addusers.sh
 echo
 ###########################################################################################################
 echo
 cd ..
+pwd
+echo "============================"
+echo "Container IP:  "$CONTAINERIP
+echo "Hostname:      "$(hostname)
+echo "============================"
 # change the IP addr from John's IP to the docker container IP
-sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patServer/Server/package.json
-sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patServer/Server/keycloak.json
-sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patClient/package.json
-sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patClient/public/keycloak.json
-sed -i 's/192.168.1.106/$CONTAINERIP/' ./pat/patClient/.env
+sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patServer/Server/package.json
+sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patServer/Server/keycloak.json
+sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/package.json
+sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/public/keycloak.json
+sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/.env
 sed -i 's/dev.soaring/www.soaring/'    ./pat/patServer/Server/server/params.js
 sudo chown pat:pat /home/pat/. -R
 sudo chmod 775 -R  /home/pat/.

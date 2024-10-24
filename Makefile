@@ -29,21 +29,27 @@ cleanpat:
 	docker rmi ${IMAGE_NAME}:$(MAJOR_VERSION)
 	docker rmi ${IMAGE_NAME} 
 	docker images
+	rm -r dockerdata
 run:
-	mkdir -p  ./dockerdata		# dokerdata within this directory contains the PAT data
-	chmod 775 ./dockerdata		# be sure that is accesable 
+	mkdir -p  ./dockerdata		# dockerdata within this directory contains the PAT data
+	sudo chmod 775 ./dockerdata	# be sure that is accesable 
 	- docker ps -a			# show all the containers
 	- docker stop patc		# try to stop it just in case
 	- docker rm patc		# remove it just in case
-	#  Check that the new mynetpat is created -->       docker network create --subnet=${SUBNET}/16 mynetpat
+	#  Check that the new mynetpat is created -->       
+	# docker network create --subnet=${SUBNET}/16 mynetpat
+	clear
 	docker  run -ti --net mynetpat --ip ${CONTAINERIP} -p ${PATPORT} -p ${KCPORT} --restart unless-stopped --name patc --hostname PATdock -v ./dockerdata:/home/pat/src/pat pat 
 	- docker ps -a
 attach:
 	docker attach patc
 	# after attach
 	# su pat
-	# bash sh/instondocker.sh
-	# bash sh/runkc.sh				# run keycloak
+	# bash
+	# cd
+	# bash sh/instondocker.sh			# finish the installation of the PATa
+	# status					# check what is running
+	# bash sh/runkc.sh				# run keycloak if not started
 	# bash sh/runpat.sh				# run PAT
 	# on browser localhost:${KCPORT}       		# for the keycload console
 	# on browser localhost:${PATPORT}		# for the PAT 
