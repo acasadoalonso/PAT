@@ -105,6 +105,7 @@ fi
 echo 
 cd   ~/src/pat
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env.development.local
+echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env
 echo 
 echo "Install JAVA now ..."
 echo 

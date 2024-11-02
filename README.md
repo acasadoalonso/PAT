@@ -17,9 +17,9 @@ This repo contains the information of how to install the PROXIMITY ANALYSIS OOL 
 >
 >bash sh/runpat.sh
 >
->to run the keycloak console:   on a browser:  localhost:8081
+>to run the keycloak console:   on a browser:  172.19.0.2:8081
 >
->to run the PAT                 on a browser:  localhost:3003
+>to run the PAT                 on a browser:  172.19.0.2:3000
 >
 
 

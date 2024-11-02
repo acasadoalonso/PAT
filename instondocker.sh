@@ -31,6 +31,7 @@ type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 echo
 echo "Install the PAT software from GitHub"
 echo
+sudo usermod pat -s /bin/bash
 cd /home/pat/src/pat
 sudo chmod 775 .
 sudo chown pat:pat .
@@ -77,10 +78,12 @@ echo "Start the keycloak system"
 echo
 cd /home/pat/src/keycloak-$KCversion
 ./bin/kc.sh --verbose build
+sleep 10
 ./bin/kc.sh --verbose start-dev --http-port 8081 --https-client-auth none &
-echo "Wait 90 seconds ....."
-sleep 90
+echo "Wait 120 seconds ....."
+sleep 120
 ./bin/kc.sh show-config
+echo " -----------------------------"
 if [[ $CONTAINERIP == '' ]] ; then
         export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
 	echo "Container IP:  "$CONTAINERIP
@@ -98,6 +101,7 @@ echo
 echo "The password for admin is admin ... "
 echo
 ./bin/kcadm.sh config credentials --server http://$CONTAINERIP:8081 --realm master --user admin
+sleep 10
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
 ./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$CONTAINERIP:8081
 ./bin/kcadm.sh get realms   --fields id,realm,enabled,displayName,displayNameHtml
@@ -111,6 +115,11 @@ echo
 echo
 cd ..
 pwd
+if [[ $CONTAINERIP == '' ]] ; then
+        export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
+	echo "Container IP:  "$CONTAINERIP
+	echo "============================"
+fi
 echo "============================"
 echo "Container IP:  "$CONTAINERIP
 echo "Hostname:      "$(hostname)
@@ -124,6 +133,8 @@ sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/.env
 sed -i 's/dev.soaring/www.soaring/'    ./pat/patServer/Server/server/params.js
 sudo chown pat:pat /home/pat/. -R
 sudo chmod 775 -R  /home/pat/.
+sudo atd
+bash ~/src/sh/patcheck.sh
 echo
 echo "Installation on DOCKER done"
 echo "==========================="

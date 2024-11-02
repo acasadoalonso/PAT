@@ -13,9 +13,11 @@ KCPORT := 8081:8081			# port used by the Keycloak console
 
 dev:
 	docker build --no-cache=true -t ${IMAGE_NAME} .
+	docker tag ${IMAGE_NAME} ${IMAGE_NAME}
 
 build :
 	docker build --no-cache=false -t ${IMAGE_NAME}:$(FULL_VERSION)  .
+	docker tag ${IMAGE_NAME} ${IMAGE_NAME}
 	docker tag ${IMAGE_NAME}:$(FULL_VERSION) ${IMAGE_NAME}:$(MINOR_VERSION)
 	docker tag ${IMAGE_NAME}:$(FULL_VERSION) ${IMAGE_NAME}:$(MAJOR_VERSION)
 	docker tag ${IMAGE_NAME}:$(FULL_VERSION) ${IMAGE_NAME}
