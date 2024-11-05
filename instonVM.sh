@@ -6,9 +6,11 @@
 #
 echo 
 export KCversion='25.0.2'
+export KCfqn=''					# export KCfqn='icgpat.fai.org:10051'      KC API
 date
 echo "Runninng "$(basename "$0")
 echo "Intalling PAT and KeyCloack version: "$KCversion
+######################################################
 # <<<<<<<<<<<<<<<<<  CHECK those values first >>>>>>>>>>
 export KCversion='25.0.2'
 export PATHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
@@ -20,7 +22,7 @@ echo "User:              "$USER
 echo "KCversion:         "$KCversion
 echo "========================================"
 echo
-##################################################
+######################################################
 sudo apt update
 sudo apt upgrade -y
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
@@ -44,16 +46,33 @@ npm install -g npm@10.1.0
 sudo apt autoremove -y
 mkdir -p ~/src
 mkdir -p ~/src/pat
+mkdir -p ~/src/sh
+if [[ -d ~/src/PAT ]]
+then
+   cp ~/src/PAT/*.sh ~/src/sh
+fi
+######################################################
+echo 
+echo "Install JAVA now ..."
+echo 
+sudo apt-get install -y openjdk-17-jre-headless openjdk-17-jdk-headless
+cd   ~/src/
+sudo echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
+export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+######################################################
 cd       ~/src/pat
 echo 
 echo "Get the software from John's repo ..."
 echo "====================================="
 echo 
+rm -rf patClient
+rm -rf patServer
 gh auth login --with-token <../mytoken.txt
 gh repo clone jwharington/patClient
 gh repo clone jwharington/patServer
 cd patServer
 #
+######################################################
 echo 
 echo "Node and NPM versions:"
 echo "======================"
@@ -68,6 +87,7 @@ cd   ~/src/pat
 echo 
 (cd patServer/Server; npm install)
 #
+######################################################
 echo 
 echo "Setup the aliases ..."
 echo 
@@ -106,13 +126,8 @@ echo
 cd   ~/src/pat
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env.development.local
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env
-echo 
-echo "Install JAVA now ..."
-echo 
-sudo apt-get install -y openjdk-17-jre-headless openjdk-17-jdk-headless
+######################################################
 cd   ~/src/
-sudo echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
-export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 echo 
 echo "Get the KeyCloak source ..."
 echo
@@ -152,7 +167,7 @@ echo
 echo
 pwd
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
-# create the ream CPAS 
+# create the realm CPAS 
 ./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$KCHOST:8081
 # check the users
 ./bin/kcadm.sh get realms   --fields id,realm,enabled,displayName,displayNameHtml
@@ -163,16 +178,23 @@ pwd
 bash ../keycloak/addusers.sh
 pwd
 
+######################################################
 echo
 echo
 cd ..
 # change the IP addr from John's IP to the docker container IP
 sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/package.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/keycloak.json
 sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/package.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/public/keycloak.json
 sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/.env
 sed -i "s/dev.soaring/www.soaring/"  ./pat/patServer/Server/server/params.js
+if [[ $KCfqn == '' ]]
+then
+    sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/keycloak.json
+    sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/public/keycloak.json
+else
+    sed -i "s/192.168.1.106:8081/$KCfqn/" ./pat/patServer/Server/keycloak.json
+    sed -i "s/192.168.1.106:8081/$KCfqn/" ./pat/patClient/public/keycloak.json
+fi
 cd
 echo "Updating mode and owner ..."
 echo "==========================="

@@ -9,10 +9,11 @@ date
 echo "Runninng "$(basename "$0")
 echo "Intalling PAT and KeyCloack version: "$KCversion
 # <<<<<<<<<<<<<<<<<  CHECK those values first >>>>>>>>>>
-export PATHOST=$(getent hosts "$(hostname)" | awk '{ print $1 }' | tail -n1)
-export KCHOST=$(getent hosts "$(hostname)"  | awk '{ print $1 }' | tail -n1)
+export PATHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
+export KCHOST=$(hostname -I  | awk '{ print $1 }' | tail -n1)
 echo "Host IP addr:      "$PATHOST
 echo "Keycloak IP addr:  "$KCHOST
+echo "Keycloak version:  "$KCversion
 echo "========================================"
 echo
 ##################################################
@@ -41,7 +42,7 @@ echo "Copy REALM"
 echo
 # COPY the very basic REALM
 sed -i "s/192.168.1.5/$PATHOST/" ../keycloak/realm-cpas.json
-cp                               ../keycloak/realm-cpas.json ~/src/keycloak-$KCversion/conf
+cp                               ../keycloak/* ~/src/keycloak-$KCversion/conf
 echo 
 echo "Build Keycloak"
 echo
@@ -70,14 +71,6 @@ echo
 ./bin/kcadm.sh get roles   -r cpas --offset 0 --limit 100
 echo
 echo
-cd ..
-# change the IP addr from John's IP to the docker container IP
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/package.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/keycloak.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/package.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/public/keycloak.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/.env
-sed -i "s/dev.soaring/www.soaring/"  ./pat/patServer/Server/server/params.js
 cd
 echo "Updating mode and owner ..."
 echo "==========================="
