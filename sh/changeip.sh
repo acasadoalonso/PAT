@@ -1,4 +1,7 @@
 #!/bin/bash 
+#
+# this script is used to change the IP addr of the server running pat from the original running on John's laptop
+#
 date
 export KCversion='25.0.2'
 export KCfqn=''					# export KCfqn='icgpat.fai.org:10051'      KC API
@@ -13,6 +16,12 @@ echo "========================================"
 echo
 ##################################################
 cd ~/src/
+export oldIP=$(cat ./pat/patServer/Server/keycloak.json | awk '/http/{print $(NF)}'| awk ' {print substr($0, 9)}' | sed 's/:.*//')
+echo "Current IP addr on the package:    "$oldIP
+echo "Current IP addr of the server:     "$PATHOST
+echo "========================================"
+echo
+##################################################
 # change the IP addr from John's IP to the docker container IP
 sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/package.json
 sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/package.json
