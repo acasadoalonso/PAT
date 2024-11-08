@@ -23,19 +23,22 @@ echo "========================================"
 echo
 ##################################################
 # change the IP addr from John's IP to the docker container IP
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/package.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/package.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/.env
-sed -i "s/dev.soaring/www.soaring/"  ./pat/patServer/Server/server/params.js
-if [[ $KCfqn == '' ]]
+if [[ $PATHOST != $oldIP ]]
 then
-    sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/keycloak.json
-    sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/public/keycloak.json
-else
-    sed -i "s/192.168.1.106:8081/$KCfqn/" ./pat/patServer/Server/keycloak.json
-    sed -i "s/192.168.1.106:8081/$KCfqn/" ./pat/patClient/public/keycloak.json
+	sed -i "s/$oldIP/$PATHOST/" ./pat/patServer/Server/package.json
+	sed -i "s/$oldIP/$PATHOST/" ./pat/patClient/package.json
+	sed -i "s/$oldIP/$PATHOST/" ./pat/patClient/.env
+	sed -i "s/dev.soaring/www.soaring/"  ./pat/patServer/Server/server/params.js
+	if [[ $KCfqn == '' ]]
+	then
+    		sed -i "s/$oldIP/$PATHOST/" ./pat/patServer/Server/keycloak.json
+    		sed -i "s/$oldIP/$PATHOST/" ./pat/patClient/public/keycloak.json
+	else
+    		sed -i "s/$oldIP:8081/$KCfqn/" ./pat/patServer/Server/keycloak.json
+    		sed -i "s/$oldIP:8081/$KCfqn/" ./pat/patClient/public/keycloak.json
+	fi
 fi
-
+##################################################
 cd
 sudo chown $USER:$USER . -R
 sudo chmod 775 -R  .
