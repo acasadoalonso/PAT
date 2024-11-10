@@ -125,12 +125,8 @@ echo "Container IP:  "$CONTAINERIP
 echo "Hostname:      "$(hostname)
 echo "============================"
 # change the IP addr from John's IP to the docker container IP
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patServer/Server/package.json
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patServer/Server/keycloak.json
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/package.json
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/public/keycloak.json
-sed -i 's/192.168.1.106/172.19.0.2/' ./pat/patClient/.env
-sed -i 's/dev.soaring/www.soaring/'    ./pat/patServer/Server/server/params.js
+bash ~/src/pat/sh/changeip.sh
+
 sudo chown pat:pat /home/pat/. -R
 sudo chmod 775 -R  /home/pat/.
 sudo atd

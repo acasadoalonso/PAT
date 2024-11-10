@@ -25,6 +25,8 @@ echo
 # change the IP addr from John's IP to the docker container IP
 if [[ $PATHOST != $oldIP ]]
 then
+	echo "Changing the IP address on the JS modules ..."
+	echo
 	sed -i "s/$oldIP/$PATHOST/" ./pat/patServer/Server/package.json
 	sed -i "s/$oldIP/$PATHOST/" ./pat/patClient/package.json
 	sed -i "s/$oldIP/$PATHOST/" ./pat/patClient/.env
@@ -40,8 +42,9 @@ then
 fi
 ##################################################
 cd
-sudo chown $USER:$USER . -R
-sudo chmod 775 -R  .
 echo
+echo
+echo "Done changeIP ..."
+echo "========================================"
 echo
 date

@@ -23,7 +23,7 @@ then
     echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
 else
 
-    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='benalla' && sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
+    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='admin' && sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
 fi
 echo 
 cd   ~/src/
@@ -70,12 +70,6 @@ echo
 ./bin/kcadm.sh get users   -r cpas --offset 0 --limit 100
 ./bin/kcadm.sh get roles   -r cpas --offset 0 --limit 100
 echo
-echo
-cd
-echo "Updating mode and owner ..."
-echo "==========================="
-sudo chown $USER:$USER . -R
-sudo chmod 775 -R  .
 echo
 echo
 date

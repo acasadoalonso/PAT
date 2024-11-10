@@ -96,7 +96,6 @@ alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
 echo 
 echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                         >>~/.bash_aliases
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                   >>~/.bash_aliases
-echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                   >>~/.bash_aliases
 echo "alias status='(pgrep -a node;echo ;pgrep -a java;echo )'"                                        >>~/.bash_aliases
 #
 echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
@@ -117,10 +116,10 @@ echo 'echo      '                                                               
 
 if [[ $KCversion == '25.0.2' ]]
 then
-    echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
+    echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    							  >>~/.bash_aliases
 else
 
-    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='benalla' && sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
+    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='admin' &&  sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"   >>~/.bash_aliases
 fi
 echo 
 cd   ~/src/pat
@@ -183,18 +182,7 @@ echo
 echo
 cd ..
 # change the IP addr from John's IP to the docker container IP
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/package.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/package.json
-sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/.env
-sed -i "s/dev.soaring/www.soaring/"  ./pat/patServer/Server/server/params.js
-if [[ $KCfqn == '' ]]
-then
-    sed -i "s/192.168.1.106/$PATHOST/" ./pat/patServer/Server/keycloak.json
-    sed -i "s/192.168.1.106/$PATHOST/" ./pat/patClient/public/keycloak.json
-else
-    sed -i "s/192.168.1.106:8081/$KCfqn/" ./pat/patServer/Server/keycloak.json
-    sed -i "s/192.168.1.106:8081/$KCfqn/" ./pat/patClient/public/keycloak.json
-fi
+bash ~/src/pat/sh/changeip.sh
 cd
 echo "Updating mode and owner ..."
 echo "==========================="

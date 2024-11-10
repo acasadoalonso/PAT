@@ -1,7 +1,13 @@
 #!/bin/bash
 pnum=$(pgrep -x -f "/usr/bin/node server/server.js" )
 pcount=$(pgrep -a node | wc -l)
-pnode=5
+pnsolid=$(pgrep -a nsolid | wc -l)
+if [[ $pnsolid == 2 ]]
+then
+   pnode=3
+else
+   pnode=5
+fi
 type -p /usr/bin/nsolid >>/dev/null && unset pnode && pnode=3 && echo $pnode
 if [[ $pcount == $pnode ]] 								# if PAT interface is  not running
 then
@@ -15,7 +21,14 @@ else
 	#               restart OGN data collector
     logger -t $0 "PAT seems down, restarting"
     date >>/tmp/.PATrangerestart.log
-    (pkill node && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log 2>&1 &)
+    netstat -ltnp | grep -w ':8080'
+    netstat -ltnp | grep -w ':3000'
+    sudo lsof -P | grep ':8080'
+    sudo lsof -P | grep ':3000'
+
+    pkill -e --signal 9 node 
+    pkill -e --signal 9 nsolid
+    (cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log 2>&1 &)
 fi
 
 pnumj=$(pgrep java )
