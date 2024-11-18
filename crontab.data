@@ -1,0 +1,1 @@
+01 01 * * * logrotate ~/src/pat/logrotate.conf -f -s /tmp/logrotate.txt

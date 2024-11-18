@@ -183,6 +183,16 @@ echo
 cd ..
 # change the IP addr from John's IP to the docker container IP
 bash ~/src/pat/sh/changeip.sh
+if [ -f crontab.data ]		
+then 			
+     	echo				
+        echo "==================="
+     	echo "Set the crontab ..."
+        echo "==================="
+     	echo			
+     	crontab <crontab.data
+     	crontab -l 	
+fi	
 cd
 echo "Updating mode and owner ..."
 echo "==========================="
