@@ -68,7 +68,7 @@ sudo curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo
 NODE_MAJOR=$NODE
 echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 sudo apt update && sudo apt install -y nodejs libfmt-dev
-npm install -g $NPM
+sudo npm install -g $NPM
 echo 
 echo "Node and NPM versions:"
 echo "======================"
@@ -107,20 +107,27 @@ echo "====================================="
 echo 
 rm -rf patClient
 rm -rf patServer
-gh auth login --with-token <../mytoken.txt
-gh repo clone jwharington/patClient
-gh repo clone jwharington/patServer
-cd patServer
+if [ -f ../mytoke.txt ] ; then
+	gh auth login --with-token <../mytoken.txt
+	gh repo clone jwharington/patClient
+	gh repo clone jwharington/patServer
+	cd patServer
 #
 ######################################################
-echo 
-echo "Install the NODE modules needed ...."
-echo "===================================="
-echo 
-cd   ~/src/pat
-(cd patClient;  npm install)
-echo 
-(cd patServer/Server; npm install)
+	echo 
+	echo "Install the NODE modules needed ...."
+	echo "===================================="
+	echo 
+	cd   ~/src/pat
+	(cd patClient;  npm install)
+	echo 
+	(cd patServer/Server; npm install)
+else
+	echo "Get the GITHUB token prior to the installation ...."
+	echo "==================================================="
+	echo 
+	exit
+fi
 #
 ######################################################
 echo 
@@ -128,10 +135,16 @@ echo "Setup the aliases ..."
 echo 
 alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
 alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
+if [[ $KCversion == '25.0.2' ]]
+then
+    echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    							       >>~/.bash_aliases
+else
+    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='admin' &&  sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"        >>~/.bash_aliases
+fi
 echo 
-echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                         >>~/.bash_aliases
-echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                   >>~/.bash_aliases
-echo "alias status='(pgrep -a node;echo ;pgrep -a java;echo )'"                                        >>~/.bash_aliases
+echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                        >>~/.bash_aliases
+echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                  >>~/.bash_aliases
+echo "alias status='(pgrep -a node;echo ;pgrep -a java;echo )'"                                       >>~/.bash_aliases
 #
 echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
 echo "export KEYCLOAK_ADMIN_PASSWORD='admin'"                                                         >>~/.profile
@@ -149,19 +162,14 @@ echo 'echo "User:              "$USER           '                               
 echo 'echo "========================================"      '                                          >>~/.profile
 echo 'echo      '                                                                                     >>~/.profile
 
-if [[ $KCversion == '25.0.2' ]]
-then
-    echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    							  >>~/.bash_aliases
-else
-
-    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='admin' &&  sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"   >>~/.bash_aliases
-fi
 echo 
 cd   ~/src/pat
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env.development.local
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env
 #
 ######################################################
+cd ~/src/keycloak-$KCversion/
+pwd
 echo 
 echo "Build Keycloak"
 echo
@@ -200,7 +208,7 @@ echo
 echo
 cd ..
 # change the IP addr from John's IP to the docker container IP
-bash ~/src/pat/sh/changeip.sh
+bash ~/src/sh/changeip.sh
 if [ -f crontab.data ]		
 then 			
      	echo				
