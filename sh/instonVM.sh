@@ -4,15 +4,16 @@
 #
 # Requirements a VM or LXC with 16Gb storage and 2048 Mb memory
 #
-echo 
-export KCversion='25.0.2'
-export KCfqn=''					# export KCfqn='icgpat.fai.org:10051'      KC API
-date
 echo "Runninng "$(basename "$0")
-echo "Intalling PAT and KeyCloack version: "$KCversion
+echo "Intalling PAT and KeyCloack version: "
+date
 ######################################################
 # <<<<<<<<<<<<<<<<<  CHECK those values first >>>>>>>>>>
-export KCversion='25.0.2'
+echo 
+export KCversion='25.0.2'			# Keycloak version
+export KCfqn=''					# export KCfqn='icgpat.fai.org:10051'      KC API
+export NODE='20'				# Node Version
+export NPM='npm@10.1.0'				# NPM version
 export PATHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
 export KCHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
 
@@ -20,11 +21,23 @@ echo "Host IP addr:      "$PATHOST
 echo "Keycloak IP addr:  "$KCHOST
 echo "User:              "$USER
 echo "KCversion:         "$KCversion
+echo "NODEversion:       "$NODE
+echo "NPMversion:        "$NPM
 echo "========================================"
 echo
+#
 ######################################################
 sudo apt update
 sudo apt upgrade -y
+mkdir -p ~/src
+mkdir -p ~/src/pat
+mkdir -p ~/src/sh
+if [[ -d ~/src/PAT ]]				# if we have the github directory
+then
+   cp -r ~/src/PAT/sh/*.sh ~/src/sh/
+   cp -r ~/src/PAT/keycloak ~/src/
+   cp  ~/src/PAT/crontab.data ~/src/
+fi
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
 && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -36,29 +49,56 @@ echo
 echo "Install service programs"
 echo "========================"
 echo 
-sudo apt-get install -y gh gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-dev
+sudo apt-get install -y gh gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-devi logrotate
 sudo mkdir -p /etc/apt/keyrings
-sudo curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-NODE_MAJOR=18
-echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-sudo apt update && sudo apt install -y nodejs libfmt-dev
-npm install -g npm@10.1.0
-sudo apt autoremove -y
-mkdir -p ~/src
-mkdir -p ~/src/pat
-mkdir -p ~/src/sh
-if [[ -d ~/src/PAT ]]
-then
-   cp ~/src/PAT/*.sh ~/src/sh
-fi
+#
 ######################################################
 echo 
 echo "Install JAVA now ..."
 echo 
 sudo apt-get install -y openjdk-17-jre-headless openjdk-17-jdk-headless
-cd   ~/src/
 sudo echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
 export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+#
+######################################################
+echo 
+echo "Install NODE and NPM now ..."
+echo 
+sudo curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=$NODE
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt update && sudo apt install -y nodejs libfmt-dev
+npm install -g $NPM
+echo 
+echo "Node and NPM versions:"
+echo "======================"
+node --version
+npm  --version
+sudo apt autoremove -y
+#
+######################################################
+cd   ~/src/
+echo 
+echo "Get the KeyCloak source ..."
+echo
+echo
+wget http://github.com/keycloak/keycloak/releases/download/$KCversion/keycloak-$KCversion.tar.gz
+tar zxvf keycloak-$KCversion.tar.gz
+rm       keycloak-$KCversion.tar.gz
+export KEYCLOAK_ADMIN=admin
+export KEYCLOAK_ADMIN_PASSWORD=admin
+cd ~/src/keycloak-$KCversion/
+pwd
+mkdir -p conf
+# copy the configuration files 
+if [[ -d ~/src/PAT ]]				# if we have the github directory
+then
+	cp -r ../PAT/keycloak/*  ~/src/keycloak-$KCversion/conf/
+	# COPY the very basic REALM
+	sed -i "s/192.168.1.5/$PATHOST/" ../PAT/keycloak/realm-cpas.json
+	cp                               ../PAT/keycloak/realm-cpas.json ~/src/keycloak-$KCversion/conf
+fi
+#
 ######################################################
 cd       ~/src/pat
 echo 
@@ -73,11 +113,6 @@ gh repo clone jwharington/patServer
 cd patServer
 #
 ######################################################
-echo 
-echo "Node and NPM versions:"
-echo "======================"
-node --version
-npm  --version
 echo 
 echo "Install the NODE modules needed ...."
 echo "===================================="
@@ -125,25 +160,8 @@ echo
 cd   ~/src/pat
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env.development.local
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env
+#
 ######################################################
-cd   ~/src/
-echo 
-echo "Get the KeyCloak source ..."
-echo
-echo
-wget http://github.com/keycloak/keycloak/releases/download/$KCversion/keycloak-$KCversion.tar.gz
-tar zxvf keycloak-$KCversion.tar.gz
-rm       keycloak-$KCversion.tar.gz
-export KEYCLOAK_ADMIN=admin
-export KEYCLOAK_ADMIN_PASSWORD=admin
-cd ~/src/keycloak-$KCversion/
-pwd
-mkdir -p conf
-# copy the configuration files 
-cp -r ../PAT/keycloak/*  ~/src/keycloak-$KCversion/conf/
-# COPY the very basic REALM
-sed -i "s/192.168.1.5/$PATHOST/" ../PAT/keycloak/realm-cpas.json
-cp                               ../PAT/keycloak/realm-cpas.json ~/src/keycloak-$KCversion/conf
 echo 
 echo "Build Keycloak"
 echo
