@@ -49,7 +49,7 @@ echo
 echo "Install service programs"
 echo "========================"
 echo 
-sudo apt-get install -y gh gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-devi logrotate
+sudo apt-get install -y gh gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-devi logrotate net-tools
 sudo mkdir -p /etc/apt/keyrings
 #
 ######################################################
@@ -138,14 +138,14 @@ alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
 alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
 if [[ $KCversion == '25.0.2' ]]
 then
-    echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    							       >>~/.bash_aliases
+    echo "alias kcstart='(~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    							        >>~/.bash_aliases
 else
-    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='admin' &&  sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"        >>~/.bash_aliases
+    echo "alias kcstart='(~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"                                                                                  >>~/.bash_aliases
 fi
 echo 
 echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                        >>~/.bash_aliases
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                  >>~/.bash_aliases
-echo "alias status='(pgrep -a node;echo;pgrep -a java;echo;sudo netstat -ano -p tcp|grep 8080;echo)'"  >>~/.bash_aliases
+echo "alias status='(pgrep -a node;echo;pgrep -a java;echo;sudo netstat -ano -p tcp|grep 8080;echo)'" >>~/.bash_aliases
 #
 echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
 echo "export KEYCLOAK_ADMIN_PASSWORD='admin'"                                                         >>~/.profile
@@ -183,19 +183,21 @@ echo
 echo
 echo "Wait 90 seconds ..... untill KC has started ..."
 sleep 90
+echo "Back from sleep ..."
+echo
 echo
 echo "Create the CPAS realm"
 echo "====================="
 echo
 echo
-./bin/kcadm.sh config credentials --server http://$KCHOST:8081 --realm master --user admin
+./bin/kcadm.sh config credentials --server http://localhost:8081 --realm master --user admin
 echo
 echo
 pwd
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
 # create the realm CPAS 
 ./bin/kcadm.sh delete realms/cpas                  	# delete the realm just in case
-./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$KCHOST:8081
+./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://localhost:8081
 # check the users
 ./bin/kcadm.sh get realms   --fields id,realm,enabled,displayName,displayNameHtml
 ./bin/kcadm.sh get users    -r cpas
