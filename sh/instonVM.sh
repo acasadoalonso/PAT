@@ -66,7 +66,7 @@ echo "Install NODE and NPM now ..."
 echo 
 sudo curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 NODE_MAJOR=$NODE
-echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 sudo apt update && sudo apt install -y nodejs libfmt-dev
 sudo npm install -g $NPM
 echo 
@@ -89,6 +89,7 @@ export KEYCLOAK_ADMIN=admin
 export KEYCLOAK_ADMIN_PASSWORD=admin
 cd ~/src/keycloak-$KCversion/
 pwd
+export PATH=$PATH:$(pwd)/bin
 mkdir -p conf
 # copy the configuration files 
 if [[ -d ~/src/PAT ]]				# if we have the github directory
@@ -107,7 +108,7 @@ echo "====================================="
 echo 
 rm -rf patClient
 rm -rf patServer
-if [ -f ../mytoke.txt ] ; then
+if [ -f ../mytoken.txt ] ; then
 	gh auth login --with-token <../mytoken.txt
 	gh repo clone jwharington/patClient
 	gh repo clone jwharington/patServer
@@ -144,7 +145,7 @@ fi
 echo 
 echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                        >>~/.bash_aliases
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                  >>~/.bash_aliases
-echo "alias status='(pgrep -a node;echo ;pgrep -a java;echo )'"                                       >>~/.bash_aliases
+echo "alias status='(pgrep -a node;echo;pgrep -a java;echo;sudo netstat -ano -p tcp|grep 8080;echo)'"  >>~/.bash_aliases
 #
 echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
 echo "export KEYCLOAK_ADMIN_PASSWORD='admin'"                                                         >>~/.profile
@@ -193,6 +194,7 @@ echo
 pwd
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
 # create the realm CPAS 
+./bin/kcadm.sh delete realms/cpas                  	# delete the realm just in case
 ./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$KCHOST:8081
 # check the users
 ./bin/kcadm.sh get realms   --fields id,realm,enabled,displayName,displayNameHtml
