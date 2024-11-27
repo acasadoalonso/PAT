@@ -1,9 +1,11 @@
 #!/bin/bash 
+######################################################
 #
-# Start with a fresh UBUNTU 22.04
+# Start with a fresh UBUNTU 24.04
 #
 # Requirements a VM or LXC with 16Gb storage and 2048 Mb memory
 #
+######################################################
 echo "Runninng "$(basename "$0")
 echo "Intalling PAT and KeyCloack version: "
 date
@@ -15,8 +17,8 @@ export KCfqn=''					# export KCfqn='icgpat.fai.org:10051'      KC API
 export NODE='20'				# Node Version
 export NPM='npm@10.1.0'				# NPM version
 export PATHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
-export KCHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
-
+export KCHOST=$(hostname -I  | awk '{ print $1 }' | tail -n1)
+echo
 echo "Host IP addr:      "$PATHOST
 echo "Keycloak IP addr:  "$KCHOST
 echo "User:              "$USER
@@ -32,29 +34,34 @@ sudo apt upgrade -y
 mkdir -p ~/src
 mkdir -p ~/src/pat
 mkdir -p ~/src/sh
-if [[ -d ~/src/PAT ]]				# if we have the github directory
-then
-   cp -r ~/src/PAT/sh/*.sh ~/src/sh/
-   cp -r ~/src/PAT/keycloak ~/src/
-   cp  ~/src/PAT/crontab.data ~/src/
+if [[ -d ~/src/PAT ]]			# if we have the github directory
+then					# copy the aux scripts	
+   cp -r ~/src/PAT/sh/*.sh 		~/src/sh/
+   cp -r ~/src/PAT/keycloak 		~/src/
+   cp    ~/src/PAT/crontab.data 	~/src/
+   cp    ~/src/PAT/logrotate.conf 	~/src/
 fi
+echo
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+sudo mkdir -p /etc/apt/keyrings
+# install gh
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
 && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
 && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
 && sudo apt update \
 && sudo apt install gh -y
-sudo apt-get install -y wget systemd git libarchive-dev  vim inetutils-ping figlet ntpdate ssh sudo openssh-server
+# install the service programs
 echo 
 echo "Install service programs"
 echo "========================"
 echo 
+sudo apt-get install -y wget systemd git libarchive-dev  vim inetutils-ping figlet ntpdate ssh sudo openssh-server
 sudo apt-get install -y gh gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-devi logrotate net-tools
-sudo mkdir -p /etc/apt/keyrings
 #
 ######################################################
 echo 
 echo "Install JAVA now ..."
+echo "===================="
 echo 
 sudo apt-get install -y openjdk-17-jre-headless openjdk-17-jdk-headless
 sudo echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
@@ -63,6 +70,7 @@ export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 ######################################################
 echo 
 echo "Install NODE and NPM now ..."
+echo "============================"
 echo 
 sudo curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 NODE_MAJOR=$NODE
@@ -80,6 +88,7 @@ sudo apt autoremove -y
 cd   ~/src/
 echo 
 echo "Get the KeyCloak source ..."
+echo "==========================="
 echo
 echo
 wget http://github.com/keycloak/keycloak/releases/download/$KCversion/keycloak-$KCversion.tar.gz
@@ -109,6 +118,10 @@ echo
 rm -rf patClient
 rm -rf patServer
 if [ -f ../mytoken.txt ] ; then
+	echo 
+	echo "Login and Clone the github repo ...."
+	echo "===================================="
+	echo 
 	gh auth login --with-token <../mytoken.txt
 	gh repo clone jwharington/patClient
 	gh repo clone jwharington/patServer
@@ -123,9 +136,16 @@ if [ -f ../mytoken.txt ] ; then
 	(cd patClient;  npm install)
 	echo 
 	(cd patServer/Server; npm install)
+	cd       ~/src/pat
+#
+######################################################
 else
+	echo 
 	echo "Get the GITHUB token prior to the installation ...."
 	echo "==================================================="
+	echo 
+	echo 
+	echo 
 	echo 
 	exit
 fi
@@ -133,18 +153,19 @@ fi
 ######################################################
 echo 
 echo "Setup the aliases ..."
+echo "====================="
 echo 
-alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
-alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
+alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'
+alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'
 if [[ $KCversion == '25.0.2' ]]
 then
-    echo "alias kcstart='(~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    							        >>~/.bash_aliases
+    echo "alias kcstart='(~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization >>/tmp/kc.log &)'"    							       >>~/.bash_aliases
 else
-    echo "alias kcstart='(~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"                                                                                  >>~/.bash_aliases
+    echo "alias kcstart='(~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization >>/tmp/kc.log &)'"                                                                                   >>~/.bash_aliases
 fi
 echo 
-echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'"                                        >>~/.bash_aliases
-echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'"                  >>~/.bash_aliases
+echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'"                         >>~/.bash_aliases
+echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'"   >>~/.bash_aliases
 echo "alias status='(pgrep -a node;echo;pgrep -a java;echo;sudo netstat -ano -p tcp|grep 8080;echo)'" >>~/.bash_aliases
 #
 echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
@@ -162,7 +183,8 @@ echo 'echo "Keycloak Version:  "$KCversion      '                               
 echo 'echo "User:              "$USER           '                                                     >>~/.profile
 echo 'echo "========================================"      '                                          >>~/.profile
 echo 'echo      '                                                                                     >>~/.profile
-
+echo 
+alias
 echo 
 cd   ~/src/pat
 echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env.development.local
@@ -173,17 +195,21 @@ cd ~/src/keycloak-$KCversion/
 pwd
 echo 
 echo "Build Keycloak"
+echo "=============="
 echo
 ./bin/kc.sh --verbose build --https-client-auth none
 echo 
 echo "Start Keycloak"
+echo "=============="
 echo
 ./bin/kc.sh --verbose start-dev --http-port 8081 --https-client-auth none &
 echo
 echo
 echo "Wait 90 seconds ..... untill KC has started ..."
+echo "==============================================="
 sleep 90
 echo "Back from sleep ..."
+echo "==================="
 echo
 echo
 echo "Create the CPAS realm"
