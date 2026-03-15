@@ -1,0 +1,13 @@
+FROM quay.io/keycloak/keycloak:latest AS builder
+
+WORKDIR /opt/keycloak
+RUN /opt/keycloak/bin/kc.sh build --https-client-auth none
+
+FROM quay.io/keycloak/keycloak:latest
+COPY --from=builder /opt/keycloak/ /opt/keycloak/
+EXPOSE 8443
+EXPOSE 8081
+EXPOSE 9000
+ENV KC_HOSTNAME=192.168.1.5
+#
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--hostname=192.168.1.5", "--http-port=8081", "--http-enabled=true", "--https-client-auth=none", "--features=organization", "--http-management-port=9005 "]
