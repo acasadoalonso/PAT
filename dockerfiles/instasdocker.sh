@@ -83,17 +83,42 @@ pwd
 echo
 echo "The password for admin is admin ... "
 echo
-cd ~/src/keycloak-$KCversion/
-./bin/kcadm.sh config credentials --server http://$CONTAINERIP:8081 --realm master --user admin
-sleep 10
-./bin/kcadm.sh update realms/master -s sslRequired=NONE
-./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$CONTAINERIP:8081
-./bin/kcadm.sh get realms   --fields id,realm,enabled,displayName,displayNameHtml
-./bin/kcadm.sh get users    -r cpas
-./bin/kcadm.sh get clients  -r cpas
-./bin/kcadm.sh get roles    -r cpas
-./bin/kcadm.sh get groups   -r cpas
-bash ./conf/addusers.sh
+shopt -s expand_aliases
+
+alias  kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
+export KEYCLOAK_URL=http://192.168.1.5:8081     #/auth
+export KEYCLOAK_ADMIN=admin
+export KEYCLOAK_ADMIN_PASSWORD=Madrid
+
+
+echo Login
+kcadm config credentials --server $KEYCLOAK_URL  --realm master --user "$KEYCLOAK_ADMIN" --password "$KEYCLOAK_ADMIN_PASSWORD"
+kcadm update realms/master -s sslRequired=NONE
+kcadm create realms -f conf/realm-cpas.json --server http://$CONTAINERIP:8081
+kcadm get realms   --fields id,realm,enabled,displayName,displayNameHtml
+kcadm get users    -r cpas
+kcadm get clients  -r cpas
+kcadm get roles    -r cpas
+kcadm get groups   -r cpas
+echo "=============="
+groupid=$(kcadm get groups -r cpas -F id --noquotes --format CSV)
+echo "GroupID:   "$groupid
+kcadm get groups -r cpas
+kcadm create groups/$groupid/children   -r cpas -s name=Europe
+kcadm create groups/$groupid/children   -r cpas -s name=Australia
+kcadm create groups/$groupid/children   -r cpas -s name=USA
+kcadm create groups/$groupid/children   -r cpas -s name=SouthAmerica
+kcadm create groups/$groupid/children   -r cpas -s name=Africa
+kcadm get    groups/$groupid/children   -r cpas
+kcadm get    groups/$groupid/children   -r cpas -F id,name --noquotes --format CSV
+
+kcadm create users    -r cpas -f user1.json
+kcadm create users    -r cpas -f user2.json
+kcadm create users    -r cpas -f user3.json
+echo "=============="
+kcadm get    users    -r cpas
+echo "=============="
+
 echo
 ###########################################################################################################
 echo

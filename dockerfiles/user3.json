@@ -1,0 +1,22 @@
+{
+  "id" : "d36f8b3e-b109-417d-95c8-892d254e46a7",
+  "username" : "john",
+  "firstName" : "John",
+  "lastName" : "Wharington",
+  "email" : "jwharington@gmail.com",
+  "emailVerified" : false,
+  "createdTimestamp" : 1722620864705,
+  "enabled" : true,
+  "totp" : false,
+  "disableableCredentialTypes" : [ ],
+  "requiredActions" : [ ],
+  "groups": [ "/PAT users/Australia"],
+  "notBefore" : 0,
+  "access" : {
+    "manageGroupMembership" : true,
+    "view" : true,
+    "mapRoles" : true,
+    "impersonate" : true,
+    "manage" : true
+  }
+}

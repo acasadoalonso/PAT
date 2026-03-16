@@ -1,0 +1,22 @@
+{
+  "id" : "3c9ea205-6f79-4082-b18b-4d80d4cfd7e9",
+  "username" : "angel",
+  "firstName" : "Angel",
+  "lastName" : "Casado",
+  "email" : "acasado@acm.org",
+  "emailVerified" : false,
+  "createdTimestamp" : 1722620890178,
+  "enabled" : true,
+  "totp" : false,
+  "disableableCredentialTypes" : [ ],
+  "requiredActions" : [ ],
+  "groups": [ "/PAT users/Europe/Spain"],
+  "notBefore" : 0,
+  "access" : {
+    "manageGroupMembership" : true,
+    "view" : true,
+    "mapRoles" : true,
+    "impersonate" : true,
+    "manage" : true
+  }
+}
