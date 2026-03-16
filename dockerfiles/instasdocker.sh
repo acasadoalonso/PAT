@@ -62,9 +62,16 @@ echo
 echo 
 echo "Setup the aliases ..."
 echo 
-alias pat='docker compose up -d'
-alias patrestart='(docker compose restart) '
+alias pat='(cd ~/src/PAT/dockerfiles/patServer && docker compose up -d)'
+alias patrestart='(cd ~/src/PAT/dockerfiles/patServer && docker compose restart) '
+alias kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
+
 echo
+echo "alias pat='(cd ~/src/PAT/dockerfiles/patServer && docker compose up)'"                         >>~/.bash_aliases
+echo "alias patrestart='(cd ~/src/PAT/dockerfiles/patServer && docker compose restart)'"             >>~/.bash_aliases
+echo "alias status='(pgrep -a node;echo;pgrep -a java;echo;sudo netstat -ano -p tcp|grep 8080;echo)'" >>~/.bash_aliases
+echo "alias kcadm='docker exec keycloak bash /opt/keycloak/bin/kcadm.sh'"                            >>~/.bash_aliases
+
 ###########################################################################################################
 echo " -----------------------------"
 if [[ $CONTAINERIP == '' ]] ; then
@@ -84,7 +91,6 @@ echo
 echo "The password for admin is admin ... "
 echo
 shopt -s expand_aliases
-
 alias  kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
 export KEYCLOAK_URL=http://192.168.1.5:8081     #/auth
 export KEYCLOAK_ADMIN=admin
@@ -133,13 +139,6 @@ echo "============================"
 echo "Container IP:  "$CONTAINERIP
 echo "Hostname:      "$(hostname)
 echo "============================"
-# change the IP addr from John's IP to the docker container IP
-bash ~/src/pat/sh/changeip.sh
-
-sudo chown pat:pat /home/pat/. -R
-sudo chmod 775 -R  /home/pat/.
-sudo atd
-bash ~/src/sh/patcheck.sh
 echo
 echo "Installation on DOCKER done"
 echo "==========================="
