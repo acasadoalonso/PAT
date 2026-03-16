@@ -24,65 +24,48 @@ export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
 echo "Container IP:  "$CONTAINERIP
 echo "============================"
 echo
-git config --global --add safe.directory /home/pat/src/pat/patServer
-git config --global --add safe.directory /home/pat/src/pat/patClient
 # check for curl and install it if needed
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 echo
 echo "Install the PAT software from GitHub"
 echo
-sudo usermod pat -s /bin/bash
-cd /home/pat/src/pat
-sudo chmod 775 .
-sudo chown pat:pat .
+echo "Current dir: "$(pwd)
 rm -rf patServer
 rm -rf patClient
-gh auth login --with-token < ../mytoken.txt
+gh auth login --with-token < ../../mytoken.txt
 #gh auth refresh -h github.com
 gh repo clone jwharington/patClient
 gh repo clone jwharington/patServer
+echo "Directory content:"
+ls -la
+#
+# TEMP hack
+#
+cp docker-compose.yaml  patServer
+cp Dockerfile.patServer patServer
+cp Dockerfile.patClient patClient
+cp Dockerfile.keycloak  patServer
+cp .env.patServer       patServer/.env
+cp .env.patClient       patClient/.env
 cd patServer
-#
-# check the NODE and & NPM versions 
-#
-echo
-echo "NODE & NPM versions ..."
-echo "======================="
-node --version
-npm  --version
-echo
-echo "Compile the JS modules"
-echo
-cd       /home/pat/src/pat
-(cd patClient;  npm install)
-(cd patServer/Server; npm install)
-#
-cd       /home/pat/src/pat
-echo "DANGEROUSLY_DISABLE_HOST_CHECK=true">>patClient/.env.development.local
+mv compose.yml  compose.orig
+mv Dockerfile   Dockerfile.orig
+docker compose stop
+docker compose rm
+docker compose build --no-cache
+docker compose up -d
+docker ps -a
 echo
 echo "PAT installation done ..."
 echo
-cd       /home/pat/
-chown pat:pat -R .			# change the ownership and modes f the modules
-chmod 775     -R .
 ###################################################################################################
 echo 
 echo "Setup the aliases ..."
 echo 
-alias pat='(cd ~/src/pat/patServer && bash runme.sh &)'
-alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh &)'
+alias pat='docker compose up -d'
+alias patrestart='(docker compose restart) '
 echo
 ###########################################################################################################
-echo
-echo "Start the keycloak system"
-echo
-cd /home/pat/src/keycloak-$KCversion
-./bin/kc.sh --verbose build
-sleep 10
-./bin/kc.sh --verbose start-dev --http-port 8081 --https-client-auth none &
-echo "Wait 120 seconds ....."
-sleep 120
-./bin/kc.sh show-config
 echo " -----------------------------"
 if [[ $CONTAINERIP == '' ]] ; then
         export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
@@ -100,6 +83,7 @@ pwd
 echo
 echo "The password for admin is admin ... "
 echo
+cd ~/src/keycloak-$KCversion/
 ./bin/kcadm.sh config credentials --server http://$CONTAINERIP:8081 --realm master --user admin
 sleep 10
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE

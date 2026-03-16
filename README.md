@@ -3,6 +3,9 @@
 This repo contains the information of how to install the PROXIMITY ANALYSIS OOL (PAT) on a VM or docker container ot LXC container
 
 ## To install on docker container:
+
+>cd dockerfiles
+
 >make build
 >
 >make run
