@@ -1,0 +1,14 @@
+[ {
+  "id" : "11b0ae53-64bd-47d0-abd2-f32467d90874",
+  "name" : "PAT users",
+  "path" : "/PAT users",
+  "subGroupCount" : 2,
+  "subGroups" : [ ],
+  "access" : {
+    "view" : true,
+    "viewMembers" : true,
+    "manageMembers" : true,
+    "manage" : true,
+    "manageMembership" : true
+  }
+} ]

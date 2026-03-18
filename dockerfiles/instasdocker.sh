@@ -100,7 +100,8 @@ export KEYCLOAK_ADMIN_PASSWORD=Madrid
 echo Login
 kcadm config credentials --server $KEYCLOAK_URL  --realm master --user "$KEYCLOAK_ADMIN" --password "$KEYCLOAK_ADMIN_PASSWORD"
 kcadm update realms/master -s sslRequired=NONE
-kcadm create realms -f conf/realm-cpas.json --server http://$CONTAINERIP:8081
+docker cp realm-cpas.json keycloak:/root
+kcadm create realms -f /root/realm-cpas.json --server $CONTAINERIP
 kcadm get realms   --fields id,realm,enabled,displayName,displayNameHtml
 kcadm get users    -r cpas
 kcadm get clients  -r cpas
