@@ -43,10 +43,14 @@ ls -la
 #
 cp docker-compose.yaml  patServer
 cp Dockerfile.patServer patServer
-cp Dockerfile.patClient patClient
 cp Dockerfile.keycloak  patServer
 cp .env.patServer       patServer/.env
+cp Makefile             patServer
+cp *.json               patServer
+cp SetupKeycloak.sh     patServer
 cp .env.patClient       patClient/.env
+cp Dockerfile.patClient patClient
+#
 cd patServer
 mv compose.yml  compose.orig
 mv Dockerfile   Dockerfile.orig
@@ -74,59 +78,6 @@ echo "alias kcadm='docker exec keycloak bash /opt/keycloak/bin/kcadm.sh'"       
 
 ###########################################################################################################
 echo " -----------------------------"
-if [[ $CONTAINERIP == '' ]] ; then
-        export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
-	echo "Container IP:  "$CONTAINERIP
-	echo "============================"
-fi
-echo 
-echo "Container IP: "$CONTAINERIP
-echo
-echo
-echo "Create the CPAS realm"
-echo
-echo
-pwd
-echo
-echo "The password for admin is admin ... "
-echo
-shopt -s expand_aliases
-alias  kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
-export KEYCLOAK_URL=http://192.168.1.5:8081     #/auth
-export KEYCLOAK_ADMIN=admin
-export KEYCLOAK_ADMIN_PASSWORD=Madrid
-
-
-echo Login
-kcadm config credentials --server $KEYCLOAK_URL  --realm master --user "$KEYCLOAK_ADMIN" --password "$KEYCLOAK_ADMIN_PASSWORD"
-kcadm update realms/master -s sslRequired=NONE
-docker cp realm-cpas.json keycloak:/root
-kcadm create realms -f /root/realm-cpas.json --server $CONTAINERIP
-kcadm get realms   --fields id,realm,enabled,displayName,displayNameHtml
-kcadm get users    -r cpas
-kcadm get clients  -r cpas
-kcadm get roles    -r cpas
-kcadm get groups   -r cpas
-echo "=============="
-groupid=$(kcadm get groups -r cpas -F id --noquotes --format CSV)
-echo "GroupID:   "$groupid
-kcadm get groups -r cpas
-kcadm create groups/$groupid/children   -r cpas -s name=Europe
-kcadm create groups/$groupid/children   -r cpas -s name=Australia
-kcadm create groups/$groupid/children   -r cpas -s name=USA
-kcadm create groups/$groupid/children   -r cpas -s name=SouthAmerica
-kcadm create groups/$groupid/children   -r cpas -s name=Africa
-kcadm get    groups/$groupid/children   -r cpas
-kcadm get    groups/$groupid/children   -r cpas -F id,name --noquotes --format CSV
-
-kcadm create users    -r cpas -f user1.json
-kcadm create users    -r cpas -f user2.json
-kcadm create users    -r cpas -f user3.json
-echo "=============="
-kcadm get    users    -r cpas
-echo "=============="
-
-echo
 ###########################################################################################################
 echo
 cd ..
@@ -136,6 +87,11 @@ if [[ $CONTAINERIP == '' ]] ; then
 	echo "Container IP:  "$CONTAINERIP
 	echo "============================"
 fi
+#
+# setup the Keycloak realm
+#
+bash SetupKeycloak.sh
+
 echo "============================"
 echo "Container IP:  "$CONTAINERIP
 echo "Hostname:      "$(hostname)

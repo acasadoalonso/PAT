@@ -97,31 +97,7 @@ echo "Create the CPAS realm"
 echo
 echo
 pwd
-echo
-echo "The password for admin is admin ... "
-echo
-./bin/kcadm.sh config credentials --server http://$CONTAINERIP:8081 --realm master --user admin
-sleep 10
-./bin/kcadm.sh update realms/master -s sslRequired=NONE
-./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://$CONTAINERIP:8081
-./bin/kcadm.sh get realms   --fields id,realm,enabled,displayName,displayNameHtml
-./bin/kcadm.sh get users    -r cpas
-./bin/kcadm.sh get clients  -r cpas
-./bin/kcadm.sh get roles    -r cpas
-./bin/kcadm.sh get groups   -r cpas
-bash ./conf/addusers.sh
-echo
-###########################################################################################################
-echo
-cd ..
-pwd
-if [[ $CONTAINERIP == '' ]] ; then
-        export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
-	echo "Container IP:  "$CONTAINERIP
-	echo "============================"
-fi
-echo "============================"
-echo "Container IP:  "$CONTAINERIP
+bash SetupKeycloak.sh
 echo "Hostname:      "$(hostname)
 echo "============================"
 # change the IP addr from John's IP to the docker container IP
