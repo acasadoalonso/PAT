@@ -41,15 +41,15 @@ ls -la
 #
 # TEMP hack
 #
-cp docker-compose.yaml  patServer
-cp Dockerfile.patServer patServer
-cp Dockerfile.keycloak  patServer
-cp .env.patServer       patServer/.env
-cp Makefile             patServer
-cp *.json               patServer
-cp SetupKeycloak.sh     patServer
-cp .env.patClient       patClient/.env
-cp Dockerfile.patClient patClient
+cp docker-compose.yaml  ~/src/pat/patServer
+cp Dockerfile.patServer ~/src/pat/patServer
+cp Dockerfile.keycloak  ~/src/pat/patServer
+cp .env.patServer       ~/src/pat/patServer/.env
+cp Makefile             ~/src/pat/patServer
+cp *.json               ~/src/pat/patServer
+cp SetupKeycloak.sh     ~/src/pat/patServer
+cp .env.patClient       ~/src/pat/patClient/.env
+cp Dockerfile.patClient p~/src/pat/atClient
 #
 cd patServer
 mv compose.yml  compose.orig
