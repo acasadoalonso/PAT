@@ -49,9 +49,9 @@ cp Makefile             ~/src/pat/patServer
 cp *.json               ~/src/pat/patServer
 cp SetupKeycloak.sh     ~/src/pat/patServer
 cp .env.patClient       ~/src/pat/patClient/.env
-cp Dockerfile.patClient p~/src/pat/atClient
+cp Dockerfile.patClient ~/src/pat/atClient
 #
-cd patServer
+cd ~/src/pat/patServer
 mv compose.yml  compose.orig
 mv Dockerfile   Dockerfile.orig
 docker compose stop
