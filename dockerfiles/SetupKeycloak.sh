@@ -1,6 +1,20 @@
 #!/bin/bash
+KCversion='25.0.2'
+
 shopt -s expand_aliases
-alias  kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
+if [[ $1 == 'Docker' ]] 
+then
+   alias  kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"a
+else
+   cd ~/src/keycloak-$KCversion/
+   pwd
+   export PATH=$PATH:$(pwd)/bin
+   alias  kcadm = 'kcadm.sh 'a
+   cd -
+fi
+kcadm --help
+alias
+exit
 export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
 export KEYCLOAK_URL=http://$CONTAINERIP:8081    # URL to call Keycloak
 export KEYCLOAK_ADMIN=admin			# default admin user
