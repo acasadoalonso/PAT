@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "08a63feb-0196-4695-94e5-4947c5d52310",
+    "username" : "matejd",
+    "firstName" : "Matěj",
+    "lastName" : "Rendla",
+    "email" : "matej@gradient.cc",
+    "emailVerified" : false,
+    "createdTimestamp" : 1743934551235,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "4f97ec01-e6c5-4705-a7e9-fd790273a705",
+      "type" : "password",
+      "createdDate" : 1743965617562,
+      "secretData" : "{\"value\":\"wQKoaKK9L7lOuo1LzRDnrKGeYZpD/mqQ36eYn37OvfE=\",\"salt\":\"Vi1FTC6o9M8fTFbj6Lw2RQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user", "default-roles-cpas", "user_Czech Republic" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Czech Republic" ]
+  } ]
+}

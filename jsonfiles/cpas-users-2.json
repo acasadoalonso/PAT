@@ -1,0 +1,27 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "aba27c71-ed32-4dad-91ec-8b91c80aa739",
+    "username" : "andrasz",
+    "firstName" : "Andras Zeno",
+    "lastName" : "GYONGYOSI",
+    "email" : "zeno@nimbus.elte.hu",
+    "emailVerified" : false,
+    "createdTimestamp" : 1743933958439,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "e7fb264a-bf1f-4a70-aa18-fe4e4446ad85",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1743933983643,
+      "secretData" : "{\"value\":\"vSR21oD+EV7+PSKohdO24ac2+330peO637055+Q9cws=\",\"salt\":\"kIfyIpvzrS10LNBKoBu3/Q==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ "UPDATE_PASSWORD" ],
+    "realmRoles" : [ "user_Hungary", "user", "default-roles-cpas" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Hungary" ]
+  } ]
+}

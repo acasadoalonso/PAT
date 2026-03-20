@@ -1,0 +1,25 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "39768de4-7833-4ec5-ae21-ebcbf8f544f8",
+    "username" : "igc",
+    "firstName" : "Pat",
+    "lastName" : "IGC",
+    "email" : "igc@fai.org",
+    "emailVerified" : false,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "641d32c3-d447-46dc-8edb-c65df0f282aa",
+      "type" : "password",
+      "createdDate" : 1732553532161,
+      "secretData" : "{\"value\":\"LjAXeMW1mSHn4fErtkVeVFpXD2TFPylnkTk3gg52cUE=\",\"salt\":\"cMF2TIG2K1nq7+lb+dBMbA==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user", "offline_access" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}

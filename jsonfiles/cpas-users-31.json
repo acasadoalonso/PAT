@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "535baa4c-da1a-4ceb-aef5-1d0dbe4b3135",
+    "username" : "ricks",
+    "firstName" : "Rick",
+    "lastName" : "Sheppe",
+    "email" : "rws@sover.net",
+    "emailVerified" : false,
+    "createdTimestamp" : 1743933136521,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "e2442f37-ba85-47bb-b7b0-b73ef4660497",
+      "type" : "password",
+      "createdDate" : 1743936933953,
+      "secretData" : "{\"value\":\"aihzwSHxEfO2BYL5j6mHUqAH1XufeNipv9VuNvrKtdw=\",\"salt\":\"eIyMl4qTbhR7ZL3N+lAVcg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user", "default-roles-cpas", "user_Czech Republic", "user_USA" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Czech Republic", "/PAT users/USA" ]
+  } ]
+}

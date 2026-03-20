@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "aaebe7bc-f56b-4d0b-a410-5f6d384c300c",
+    "username" : "brian",
+    "firstName" : "Brian",
+    "lastName" : "Spreckley",
+    "email" : "brian.spreckley@orange.fr",
+    "emailVerified" : false,
+    "createdTimestamp" : 1733396640406,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "f98384b2-453e-45e3-9e72-d39e5159a5f0",
+      "type" : "password",
+      "createdDate" : 1744968012367,
+      "secretData" : "{\"value\":\"l/bvndOjNYhHNmvqVJzP4sGosWOOhb6WXzM0qFoEC6E=\",\"salt\":\"BwSZg3dV+MszCgT95ODJSg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user_Spain", "user_Australia", "user", "default-roles-cpas", "user_Czech Republic", "user_UK", "uma_authorization", "user_USA", "user_France" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe", "/PAT users/Europe/France", "/PAT users", "/PAT users/Europe/Spain", "/PAT users/Europe/UK" ]
+  } ]
+}

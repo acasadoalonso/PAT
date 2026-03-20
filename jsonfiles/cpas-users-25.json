@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "ac1fbfc4-616e-4639-bb29-6e2532c20d8a",
+    "username" : "patrickp",
+    "firstName" : "Patrick",
+    "lastName" : "Pauwels",
+    "email" : "pph.pauwels@telenet.be",
+    "emailVerified" : false,
+    "createdTimestamp" : 1751439053323,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "b08d514f-9cf0-4cc2-abff-5378eb16b1c9",
+      "type" : "password",
+      "createdDate" : 1751872805022,
+      "secretData" : "{\"value\":\"8a8nVC6Y6hD/GC3bkbTLBy8zorJ2mRJi5w8efcYlkoY=\",\"salt\":\"o9N4MmXrPflYezLDiq/PSQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user_Slovakia", "user", "default-roles-cpas" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Belgium" ]
+  } ]
+}

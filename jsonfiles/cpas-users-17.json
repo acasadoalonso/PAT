@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "85defec7-bad8-43f9-ad83-76ae791b86a5",
+    "username" : "lassev",
+    "firstName" : "Lasse",
+    "lastName" : "Virtanen",
+    "email" : "lassevv@gmail.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1747388727720,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "1d1250a6-3186-4991-97fd-610dc3cc935e",
+      "type" : "password",
+      "createdDate" : 1747921611993,
+      "secretData" : "{\"value\":\"Y9YienqzevyvdmWhOYrWz8Xalyp4KLkfwJbzr6RfoW0=\",\"salt\":\"kI1dY5qKCBN4efhj3+k2Zg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user_Finland", "user", "default-roles-cpas", "user_Czech Republic" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Finland" ]
+  } ]
+}

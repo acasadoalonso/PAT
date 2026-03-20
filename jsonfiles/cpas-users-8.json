@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "637cc768-5f6e-4d84-8844-7240c9e1f45f",
+    "username" : "endrodib",
+    "firstName" : "Balazs",
+    "lastName" : "Endrodi",
+    "email" : "endrodibalazs93@gmail.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1752852676763,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "af5ea209-d08a-4fb9-a39d-40c53f6c7136",
+      "type" : "password",
+      "createdDate" : 1753814023687,
+      "secretData" : "{\"value\":\"iGHHOEOk//IuLtojJIxXvmE8mKMDTexbykC2OCipGXY=\",\"salt\":\"k0UBiYSB7cavA28KEAZ18A==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user", "user_Hungary", "default-roles-cpas" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Czech Republic" ]
+  } ]
+}

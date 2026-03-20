@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "e06661e8-e7d8-4b8e-b51b-41c428350e21",
+    "username" : "renev",
+    "firstName" : "René",
+    "lastName" : "Vidal",
+    "email" : "rvidal911@gmail.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1756278112142,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "e46e085f-6f2a-4f16-a888-1d2c1337a601",
+      "type" : "password",
+      "createdDate" : 1756278338450,
+      "secretData" : "{\"value\":\"XOqaeb8LsoNu6zBy4zD4XMVoneaFcp7dKU2GGo6ZksQ=\",\"salt\":\"pNlOco/xutg65gNtj2cGGw==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user_Chile", "user", "default-roles-cpas", "user_France" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/SouthAmerica/Chile" ]
+  } ]
+}

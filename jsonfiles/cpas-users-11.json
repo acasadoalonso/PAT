@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "94356b87-1e18-4390-86f1-fcf20162c085",
+    "username" : "gigi",
+    "firstName" : "Luigi",
+    "lastName" : "Croce",
+    "email" : "gigi.croce@gmail.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1743934814162,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "35ceb4eb-3509-49c2-90e1-345f7f0c30c0",
+      "type" : "password",
+      "createdDate" : 1743956084496,
+      "secretData" : "{\"value\":\"sctJTPYMdZLD3HB+T5dK1We7KkVABkD1CBUMcvNRBW4=\",\"salt\":\"dVgC1beCEDZDj1T3CiU9cw==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user_Italy", "user", "default-roles-cpas" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Italy" ]
+  } ]
+}

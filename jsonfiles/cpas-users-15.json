@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "0270ef76-ea46-42fe-8a33-6418b04ac366",
+    "username" : "johng",
+    "firstName" : "John",
+    "lastName" : "Godfrey",
+    "email" : "quebec.tango@gmail.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1733395936303,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "d63138e8-616e-4bc4-b6ff-37fdd481e1b9",
+      "type" : "password",
+      "createdDate" : 1733409061224,
+      "secretData" : "{\"value\":\"jk4CwV8enIhja4UvE+nDv9M1yA5IMfU1+iEuS6wxKfQ=\",\"salt\":\"id3etwp73A2xuLOx7B/Z3A==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user", "default-roles-cpas", "user_Czech Republic", "uma_authorization", "user_USA" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users", "/PAT users/USA" ]
+  } ]
+}

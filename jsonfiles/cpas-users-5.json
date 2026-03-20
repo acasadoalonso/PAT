@@ -1,0 +1,27 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "87f3d09d-80cf-4896-82c3-3b9417713b2c",
+    "username" : "brunor",
+    "firstName" : "Bruno",
+    "lastName" : "Ramseyer",
+    "email" : "ramseyerbruno@live.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1743933819284,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "fac896b3-cbe3-4c03-b843-930fc8f49eb0",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1743933837835,
+      "secretData" : "{\"value\":\"X39hL1VGU6wfot5Q8IUXXmr98JIRaGkXRlVYi9Jfldo=\",\"salt\":\"EAFgWb4gMJlENk0xl+Wq9Q==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ "UPDATE_PASSWORD" ],
+    "realmRoles" : [ "user_Ireland", "user", "default-roles-cpas" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Ireland" ]
+  } ]
+}

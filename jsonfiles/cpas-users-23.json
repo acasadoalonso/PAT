@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "266c2087-b954-4c83-9b95-3c0f70ce0639",
+    "username" : "patricb",
+    "firstName" : "Patrick",
+    "lastName" : "Benoist",
+    "email" : "patrick.benoist@t-online.de",
+    "emailVerified" : false,
+    "createdTimestamp" : 1746176958868,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "eceeb144-3ae7-454a-b346-df028d685835",
+      "type" : "password",
+      "createdDate" : 1746177750527,
+      "secretData" : "{\"value\":\"2X+rVm+IG2FKfqaTuxVoN0aH7cNSKlPY5z2HL2+njMU=\",\"salt\":\"Dq1miELt15HvXrAGgamOGQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user_Germany", "user", "default-roles-cpas" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Germany" ]
+  } ]
+}

@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "6c0ad512-0d02-4593-950b-5175ba2d4381",
+    "username" : "ojvind",
+    "firstName" : "Ojvind",
+    "lastName" : "Frank",
+    "email" : "ojvind.frank@hotmail.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1736500313752,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "f85b69e2-48a2-4fe8-b648-227977d7a19c",
+      "type" : "password",
+      "createdDate" : 1736971826511,
+      "secretData" : "{\"value\":\"FnN1VOxquRx0dkqhFuv7GvkMAk7UM2tXTAFWXawMfjw=\",\"salt\":\"seFR8BkRH9v1iY+QmeWmIQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user", "default-roles-cpas", "user_Czech Republic", "user_Denmark" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Denmark", "/PAT users/Europe", "/PAT users" ]
+  } ]
+}

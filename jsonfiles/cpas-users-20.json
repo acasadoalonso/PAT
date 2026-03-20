@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "6076f9b4-914a-4a25-b314-77e68c029642",
+    "username" : "martinc",
+    "firstName" : "Martin ",
+    "lastName" : "Chovan",
+    "email" : "martin.chovan@aecr.cz",
+    "emailVerified" : false,
+    "createdTimestamp" : 1752852302066,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "a9bfd12c-366f-434a-b070-8d4643772684",
+      "type" : "password",
+      "createdDate" : 1752913527182,
+      "secretData" : "{\"value\":\"fBOuOTxd7uJ6dQXni9kvAKncahsPgoEMZCe17hLgyEI=\",\"salt\":\"md9EPR2vDKAmixdpatQg3A==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user", "default-roles-cpas", "user_Czech Republic" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Czech Republic" ]
+  } ]
+}

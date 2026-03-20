@@ -1,0 +1,27 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "a9d7fc92-92b9-4b11-b8c7-240e5b8507c3",
+    "username" : "petere",
+    "firstName" : "Peter",
+    "lastName" : "Eriksen",
+    "email" : "peter@eriksen-aviation.eu",
+    "emailVerified" : false,
+    "createdTimestamp" : 1743935607560,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "d09b5ca1-0b9c-43a7-aa6a-a78610a542bc",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1743935627143,
+      "secretData" : "{\"value\":\"P05PwvG2yZT6cgyBVzK6huW5gzaM7F49vCvk9YpKhfE=\",\"salt\":\"zW8mb86aqKXmhPD2cDeEOQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ "UPDATE_PASSWORD" ],
+    "realmRoles" : [ "user", "default-roles-cpas", "user_Denmark" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users" ]
+  } ]
+}

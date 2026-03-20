@@ -2,7 +2,6 @@
 #
 # This script setup the Keyclok realm for the CPAS
 #
-KCversion='25.0.2'
 
 shopt -s expand_aliases
 if [[ $1 != 'bash' ]] 
@@ -11,6 +10,7 @@ then						# docker version
    export kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
    alias
 else						# bash version
+   KCversion='25.0.2'
    cd ~/src/keycloak-$KCversion/
    pwd
    export PATH=$PATH:$(pwd)/bin
@@ -140,6 +140,8 @@ else
    $kcadm create users    -r cpas -f ./jsonfiles/user3.json
 fi
 echo
+bash addUsers.sh
+echo
 echo Users
 echo "=============="
 $kcadm get    users    -r cpas -F username,firstName,lastName           --format CSV --noquotes
@@ -150,16 +152,6 @@ echo "=============="
 $kcadm get-roles -r cpas --uusername admin -F name,description		--format CSV --noquotes
 $kcadm get-roles -r cpas --uusername angel -F name,description		--format CSV --noquotes
 $kcadm get-roles -r cpas --uusername john  -F name,description		--format CSV --noquotes
-echo
-echo "Update new roles of users."
-echo "=============="
-$kcadm add-roles --uusername angel --rolename user           -r cpas
-$kcadm add-roles --uusername angel --rolename user_Spain     -r cpas
-$kcadm add-roles --uusername angel --rolename user_France    -r cpas
-$kcadm add-roles --uusername john  --rolename user           -r cpas
-$kcadm add-roles --uusername john  --rolename user_Australia -r cpas
-$kcadm get-roles -r cpas -F name,description				--format CSV --noquotes
-echo "=============="
 echo
 echo "Users roles ..."
 echo "=============="

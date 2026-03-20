@@ -1,0 +1,20 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "9f11b20c-a3f3-4a1e-a028-33446ca2ef81",
+    "username" : "ludek",
+    "firstName" : "Ludek",
+    "lastName" : "Kluger",
+    "email" : "ludek@pohoda.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1743934263187,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user_Hungary", "user", "default-roles-cpas", "user_Czech Republic" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Czech Republic", "/PAT users/Europe/Hungary" ]
+  } ]
+}

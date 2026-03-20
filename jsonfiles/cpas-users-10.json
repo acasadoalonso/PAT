@@ -1,0 +1,26 @@
+{
+  "realm" : "cpas",
+  "users" : [ {
+    "id" : "1ec4afb0-b94b-456a-b604-64220e41eb4e",
+    "username" : "frowke",
+    "firstName" : "Frouwke",
+    "lastName" : "Kuijpers",
+    "email" : "frouwkekuijpers@gmail.com",
+    "emailVerified" : false,
+    "createdTimestamp" : 1744619020677,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "769c21eb-2376-44aa-98d9-af1b6570ed31",
+      "type" : "password",
+      "createdDate" : 1753339814778,
+      "secretData" : "{\"value\":\"pZVp3CAE8CnlFmL781j7RhEKFh53z+CafQv2Zgo2hJ4=\",\"salt\":\"Nr9qYmqiVJjKZz69Bsm0lQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "user_Hungary", "user", "default-roles-cpas", "user_Czech Republic", "user_Netherlands", "user_Dutch" ],
+    "notBefore" : 0,
+    "groups" : [ "/PAT users/Europe/Netherlands" ]
+  } ]
+}
