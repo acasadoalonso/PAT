@@ -78,29 +78,49 @@ EuropeID=$($kcadm get groups -r cpas   -q search=Europe -F 'subGroups(id)' --noq
 echo
 echo "GroupID Europe:   "$EuropeID
 echo "=============="
-$kcadm create groups/$EuropeID/children  -r cpas -s name=Spain
+$kcadm create groups/$EuropeID/children  -r cpas -s name=Belgium
+$kcadm create groups/$EuropeID/children  -r cpas -s name='Czech Republic'
+$kcadm create groups/$EuropeID/children  -r cpas -s name=Denmark
+$kcadm create groups/$EuropeID/children  -r cpas -s name=Finland
 $kcadm create groups/$EuropeID/children  -r cpas -s name=France
 $kcadm create groups/$EuropeID/children  -r cpas -s name=Germany
-$kcadm create groups/$EuropeID/children  -r cpas -s name=Italy
-$kcadm create groups/$EuropeID/children  -r cpas -s name=UK
-$kcadm create groups/$EuropeID/children  -r cpas -s name=Poland
-$kcadm create groups/$EuropeID/children  -r cpas -s name=Sweeden
-$kcadm create groups/$EuropeID/children  -r cpas -s name=Belgium
 $kcadm create groups/$EuropeID/children  -r cpas -s name=Hungary
-$kcadm create groups/$EuropeID/children  -r cpas -s name=Slovenia
+$kcadm create groups/$EuropeID/children  -r cpas -s name=Ireland
+$kcadm create groups/$EuropeID/children  -r cpas -s name=Italy
+$kcadm create groups/$EuropeID/children  -r cpas -s name=Netherlands
+$kcadm create groups/$EuropeID/children  -r cpas -s name=Poland
 $kcadm create groups/$EuropeID/children  -r cpas -s name=Slovakia
+$kcadm create groups/$EuropeID/children  -r cpas -s name=Spain
+$kcadm create groups/$EuropeID/children  -r cpas -s name=Sweeden
+$kcadm create groups/$EuropeID/children  -r cpas -s name=UK
+echo
 $kcadm get    groups/$EuropeID/children  -r cpas -F name,path           --format CSV --noquotes
+SouthAID=$($kcadm get groups -r cpas   -q search=SouthAmerica -F 'subGroups(id)' --noquotes --format CSV)
+echo
+echo "GroupID SouthAmerica:   "$SouthAID
+echo "=============="
+$kcadm create groups/$SouthAID/children  -r cpas -s name=Chile
 echo
 echo "Create roles ..."
 echo "=============="
-$kcadm create roles    -r cpas -s name=user_Spain     -s 'description=The Spaniars'
-$kcadm create roles    -r cpas -s name=user_France    -s 'description=The Frenchies'
-$kcadm create roles    -r cpas -s name=user_USA       -s 'description=The Americans'
 $kcadm create roles    -r cpas -s name=user_Australia -s 'description=The down under folks'
-$kcadm create roles    -r cpas -s name=user_UK        -s 'description=The Brits'
+$kcadm create roles    -r cpas -s name=user_Chile     -s 'description=The Chileans'
+$kcadm create roles    -r cpas -s name='user_Czech Republic' -s 'description=The Czechs'
+$kcadm create roles    -r cpas -s name=user_Denmark   -s 'description=The Dannish'
+$kcadm create roles    -r cpas -s name=user_Dutch     -s 'description=The Holanders'
+$kcadm create roles    -r cpas -s name=user_Finland   -s 'description=The Finnish'
+$kcadm create roles    -r cpas -s name=user_France    -s 'description=The Frenchies'
 $kcadm create roles    -r cpas -s name=user_Germany   -s 'description=The Germans'
+$kcadm create roles    -r cpas -s name=user_Hungary   -s 'description=The Hungarians'
+$kcadm create roles    -r cpas -s name=user_Ireland   -s 'description=The Irish'
 $kcadm create roles    -r cpas -s name=user_Italy     -s 'description=The Italians'
+$kcadm create roles    -r cpas -s name=user_Netherlands  -s 'description=The Dutch'
+$kcadm create roles    -r cpas -s name=user_Slovakia  -s 'description=The Slovakians'
 $kcadm create roles    -r cpas -s name=user_Slovenia  -s 'description=The Slovenians'
+$kcadm create roles    -r cpas -s name=user_Spain     -s 'description=The Spaniars'
+$kcadm create roles    -r cpas -s name=user_Sweeden   -s 'description=The Sweedish'
+$kcadm create roles    -r cpas -s name=user_USA       -s 'description=The Americans'
+$kcadm create roles    -r cpas -s name=user_UK        -s 'description=The Brits'
 $kcadm get-roles       -r cpas -F name,description			--format CSV --noquotes
 
 echo

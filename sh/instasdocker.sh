@@ -30,26 +30,31 @@ echo
 echo "Install the PAT software from GitHub"
 echo
 echo "Current dir: "$(pwd)
+echo "=================================="
+echo
 rm -rf patServer
 rm -rf patClient
+echo "Login into github ..."
+echo "====================="
 gh auth login --with-token < ../../mytoken.txt
 #gh auth refresh -h github.com
 gh repo clone jwharington/patClient
 gh repo clone jwharington/patServer
 echo "Directory content:"
-ls -la
+echo "=================:"
+ls -la pat*
 #
 # TEMP hack
 #
-cp docker-compose.yaml  ~/src/pat/patServer
-cp Dockerfile.patServer ~/src/pat/patServer
-cp Dockerfile.keycloak  ~/src/pat/patServer
-cp .env.patServer       ~/src/pat/patServer/.env
-cp Makefile             ~/src/pat/patServer
-cp *.json               ~/src/pat/patServer
-cp SetupKeycloak.sh     ~/src/pat/patServer
-cp .env.patClient       ~/src/pat/patClient/.env
-cp Dockerfile.patClient ~/src/pat/atClient
+cp ../dockerfiles/docker-compose.yaml  ~/src/pat/patServer
+cp ../dockerfiles/Dockerfile.patServer ~/src/pat/patServer
+cp ../dockerfiles/Dockerfile.keycloak  ~/src/pat/patServer
+cp ../dockerfiles/.env.patServer       ~/src/pat/patServer/.env
+cp ../dockerfiles/Makefile             ~/src/pat/patServer
+cp ../jsonfiles/*.json                 ~/src/pat/patServer
+cp ../dockerfiles/SetupKeycloak.sh     ~/src/pat/patServer
+cp ../dockerfiles/.env.patClient       ~/src/pat/patClient/.env
+cp ../dockerfiles/Dockerfile.patClient ~/src/pat/atClient
 #
 cd ~/src/pat/patServer
 mv compose.yml  compose.orig
@@ -90,13 +95,14 @@ fi
 #
 # setup the Keycloak realm
 #
-bash SetupKeycloak.sh
-
 echo "============================"
 echo "Container IP:  "$CONTAINERIP
 echo "Hostname:      "$(hostname)
 echo "============================"
 echo
+cd -
+bash SetupKeycloak.sh
+
 echo "Installation on DOCKER done"
 echo "==========================="
 echo
