@@ -21,19 +21,20 @@ for f in $(sudo ls  cpas*.json); do
         role1=$(jq -r '.users[0].realmRoles[0]' $f) 
 	role2=$(jq -r '.users[0].realmRoles[1]' $f)  
 	role3=$(jq -r '.users[0].realmRoles[2]' $f)  
-        if [[ $(jq -r '.users[0].realmRoles[0]' $f) == 'user' ]]
-        then
-          if [[ $role1 == 'default-roles-cpas' ||  $role2  == 'default-roles-cpas' ]]
+        role=$(jq -r '.users[0].realmRoles[0]' $f)
+        x=1 
+        while [[ $role != 'null' ]] ; 
+        do
+          if [[ $role == 'default-roles-cpas' ||  $role  == 'user' ]]
           then
-            echo "Added role3 "$role3
-	    $kcadm add-roles --uusername $(jq -r '.users[0].username' $f) --rolename "$role3" -r cpas
+            echo 'std roles ...: '$role
           else
-            echo "Added role2 "$role2
-	    $kcadm add-roles --uusername $(jq -r '.users[0].username' $f) --rolename "$role2" -r cpas
+            echo "Added role "$role
+	    $kcadm add-roles --uusername $(jq -r '.users[0].username' $f) --rolename "$role" -r cpas
           fi
-        else
-          echo "Added role1 "$role1
-	  $kcadm add-roles --uusername $(jq -r '.users[0].username' $f)   --rolename "$role1" -r cpas
-        fi
+          role=$(jq -r '.users[0].realmRoles['$x']' $f)
+          #echo "Role: "$role
+          x=$(( $x + 1 ))
+        done
 done
-cd -
+
