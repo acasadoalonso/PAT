@@ -126,14 +126,14 @@ $kcadm get-roles       -r cpas -F name,description			--format CSV --noquotes
 echo
 echo "Create now the users"
 echo "=============="
-docker cp ./jsonfiles/user1.json keycloak:/root
-docker cp ./jsonfiles/user2.json keycloak:/root
-docker cp ./jsonfiles/user3.json keycloak:/root
+docker cp ./jsonfiles/user1.json keycloak:/var
+docker cp ./jsonfiles/user2.json keycloak:/var
+docker cp ./jsonfiles/user3.json keycloak:/var
 if [[ $1 != 'bash' ]] 
 then						# docker version
-   $kcadm create users    -r cpas -f /root/user1.json
-   $kcadm create users    -r cpas -f /root/user2.json
-   $kcadm create users    -r cpas -f /root/user3.json
+   $kcadm create users    -r cpas -f /var/user1.json
+   $kcadm create users    -r cpas -f /var/user2.json
+   $kcadm create users    -r cpas -f /var/user3.json
 else
    $kcadm create users    -r cpas -f ./jsonfiles/user1.json
    $kcadm create users    -r cpas -f ./jsonfiles/user2.json
