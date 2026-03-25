@@ -5,9 +5,11 @@
 echo
 echo "Current setup environment"
 echo
-echo "Ckeycloak URL: "$KEYCLOAK_URL
-echo "Ckeycloak ADMIN: "$KEYCLOAK_ADMIN
-echo "Ckeycloak ADMIN_PASSWORD: "$KEYCLOAK_ADMIN_PASSWORD
+export HOSTIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
+export KEYCLOAK_URL=http://$HOSTIP:8081         # URL to call Keycloak
+echo "Keycloak URL: "$KEYCLOAK_URL
+echo "keycloak ADMIN: "$KEYCLOAK_ADMIN
+echo "keycloak ADMIN_PASSWORD: "$KEYCLOAK_ADMIN_PASSWORD
 shopt -s expand_aliases
 alias  kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
 export kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
