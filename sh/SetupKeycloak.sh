@@ -23,20 +23,20 @@ echo "KCADM: "$kcadm
 export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
 export KEYCLOAK_URL=http://$CONTAINERIP:8081    # URL to call Keycloak
 export KEYCLOAK_ADMIN=admin			# default admin user
-export KEYCLOAK_ADMIN_PASSWORD=Madrid		# default password
+export KEYCLOAK_ADMIN_PASSWORD=admin		# default password
 echo "Container IP:  "$CONTAINERIP
 
 echo "=============="
 echo "Login into keycloak using the CLI interface ..."
 $kcadm config credentials --server $KEYCLOAK_URL  --realm master --user "$KEYCLOAK_ADMIN" --password "$KEYCLOAK_ADMIN_PASSWORD"
 $kcadm update realms/master -s sslRequired=NONE
-docker cp ./jsonfiles/realm-cpas.json keycloak:/root	# copy the realm file into the docker container
-if [[ $1 != 'bash' ]] 
-then						# docker version
-   $kcadm create realms -f /root/realm-cpas.json # create the basis realm cpas
-else
-   $kcadm create realms -f ./jsonfiles/realm-cpas.json 	# create the basis realm cpas
-fi
+#docker cp ./jsonfiles/realm-cpas.json keycloak:/root	# copy the realm file into the docker container
+#if [[ $1 != 'bash' ]] 
+#then						# docker version
+   #$kcadm create realms -f /root/realm-cpas.json # create the basis realm cpas
+#else
+   #$kcadm create realms -f ./jsonfiles/realm-cpas.json 	# create the basis realm cpas
+#fi
 echo
 echo Realms
 echo "=============="

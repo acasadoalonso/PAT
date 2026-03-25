@@ -6,3 +6,5 @@ googlemapsapi.key
 tmp/
 patServer/
 patClient/
+dockerfiles/patServer/
+dockerfiles/patClient/

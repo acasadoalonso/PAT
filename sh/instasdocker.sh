@@ -17,7 +17,7 @@ echo
 echo "Installation on DOCKER "
 echo "======================="
 echo
-export KCversion='25.0.2'
+export KC_VERSION='25.0.2'
 export PATHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
 export KCHOST=$(hostname -I | awk '{ print $1 }' | tail -n1)
 export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
@@ -46,19 +46,10 @@ ls -la pat*
 #
 # TEMP hack
 #
-cp ../dockerfiles/docker-compose.yaml  ~/src/pat/patServer
-cp ../dockerfiles/Dockerfile.patServer ~/src/pat/patServer
-cp ../dockerfiles/Dockerfile.keycloak  ~/src/pat/patServer
-cp ../dockerfiles/.env.patServer       ~/src/pat/patServer/.env
 cp ../dockerfiles/Makefile             ~/src/pat/patServer
-cp ../jsonfiles/*.json                 ~/src/pat/patServer
-cp ../dockerfiles/SetupKeycloak.sh     ~/src/pat/patServer
-cp ../dockerfiles/.env.patClient       ~/src/pat/patClient/.env
-cp ../dockerfiles/Dockerfile.patClient ~/src/pat/atClient
 #
+export HOSTNAME=$PATHOST
 cd ~/src/pat/patServer
-mv compose.yml  compose.orig
-mv Dockerfile   Dockerfile.orig
 docker compose stop
 docker compose rm
 docker compose build --no-cache
