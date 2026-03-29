@@ -89,10 +89,12 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://192.168.1.14:8080/api/*",
-        "http://pat:8080/api/*",
-        "http://192.168.1.5:8080/api/*",
-        "http://192.168.1.6:8080/api/*"
+        "http://192.168.1.14:8000/api/*",
+        "http://pat:8000/api/*",
+        "http://patct:8000/api/*",
+        "http://localhost:8000/api/*",
+        "http://192.168.1.5:8000/api/*",
+        "http://192.168.1.6:8000/api/*"
       ],
       "webOrigins": [
         "+"
@@ -110,7 +112,8 @@
         "http://192.168.1.6:3000/*",
         "http://localhost:3000/*",
         "http://192.168.1.14:3000/*",
-        "http://pat:3000/*"
+        "http://pat:3000/*",
+        "http://patct:3000/*"
       ],
       "webOrigins": [
          "*"

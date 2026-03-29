@@ -20,11 +20,10 @@ else						# bash version
 fi
 echo "KCADM: "$kcadm
 #exit
-export HOSTIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
-export KEYCLOAK_URL=http://$HOSTIP:8081         # URL to call Keycloak
+export HOSTNAME=$(hostname -I | awk '{ print $1 }' | tail -n1)
+export KEYCLOAK_URL=http://$HOSTNAME:8081         # URL to call Keycloak
 export KEYCLOAK_ADMIN=admin			# default admin user
 export KEYCLOAK_ADMIN_PASSWORD=admin		# default password
-echo "Container IP:  "$CONTAINERIP
 
 echo "=============="
 echo "Login into keycloak using the CLI interface ..."
