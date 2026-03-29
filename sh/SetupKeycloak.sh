@@ -30,6 +30,7 @@ echo "=============="
 echo "Login into keycloak using the CLI interface ..."
 $kcadm config credentials --server $KEYCLOAK_URL  --realm master --user "$KEYCLOAK_ADMIN" --password "$KEYCLOAK_ADMIN_PASSWORD"
 $kcadm update realms/master -s sslRequired=NONE
+sleep 5						# wait a bit to be sure that the update is done
 if [[ $1 != 'bash' ]] 
 then						# docker version
    docker cp ./jsonfiles/realm-cpas.json keycloak:/root	# copy the realm file into the docker container
