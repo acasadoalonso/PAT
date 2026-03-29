@@ -140,7 +140,7 @@ else
    $kcadm create users    -r cpas -f ./jsonfiles/user3.json
 fi
 echo
-bash addUsers.sh
+bash addUsers.sh $1
 echo
 echo Users
 echo "=============="

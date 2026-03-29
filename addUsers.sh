@@ -14,8 +14,10 @@ shopt -s expand_aliases
 #alias  kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
 #export kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
 $kcadm config credentials --server $KEYCLOAK_URL  --realm master --user "$KEYCLOAK_ADMIN" --password "$KEYCLOAK_ADMIN_PASSWORD"
+echo
 echo "Intallation type: "$1
 echo "Importing users from json files"
+echo
 
 cd jsonfiles
 for f in $(sudo ls  cpas*.json); do
@@ -30,7 +32,8 @@ for f in $(sudo ls  cpas*.json); do
 	   $kcadm create users    -r cpas -f ./tmpuser.json
 	fi
 	rm tmpuser.json cbo tmp.json cbc
-	echo "User: "$(jq -r '.users[0].username' $f) --rolename user               -r cpas
+	echo "User: "$(jq -r '.users[0].username' $f)
+        echo
 	$kcadm add-roles --uusername $(jq -r '.users[0].username' $f) --rolename user               -r cpas
 	$kcadm add-roles --uusername $(jq -r '.users[0].username' $f) --rolename default-roles-cpas -r cpas
         role1=$(jq -r '.users[0].realmRoles[0]' $f) 
@@ -44,7 +47,7 @@ for f in $(sudo ls  cpas*.json); do
           then
             echo 'std roles ...: '$role
           else
-            echo "Added role "$role
+            echo "Added role:    "$role
 	    $kcadm add-roles --uusername $(jq -r '.users[0].username' $f) --rolename "$role" -r cpas
           fi
           role=$(jq -r '.users[0].realmRoles['$x']' $f)
