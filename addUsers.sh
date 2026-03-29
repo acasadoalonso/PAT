@@ -11,17 +11,24 @@ echo "Keycloak URL: "$KEYCLOAK_URL
 echo "keycloak ADMIN: "$KEYCLOAK_ADMIN
 echo "keycloak ADMIN_PASSWORD: "$KEYCLOAK_ADMIN_PASSWORD
 shopt -s expand_aliases
-alias  kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
-export kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
+#alias  kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
+#export kcadm="docker exec keycloak bash /opt/keycloak/bin/kcadm.sh"
 $kcadm config credentials --server $KEYCLOAK_URL  --realm master --user "$KEYCLOAK_ADMIN" --password "$KEYCLOAK_ADMIN_PASSWORD"
+echo "Intallation type: "$1
+echo "Importing users from json files"
+
 cd jsonfiles
 for f in $(sudo ls  cpas*.json); do
         rm -f tmpuser.json
         echo "Processing file:" $f
 	echo '{' >cbo && tail -n +4 $f | head -n-2  > tmp.json && echo '}' >cbc && cat cbo tmp.json cbc >tmpuser.json
-        #cat tmpuser.json
-	docker cp ./tmpuser.json keycloak:/var/tmpuser.json
-	$kcadm create users    -r cpas -f /var/tmpuser.json
+        if [[ $1 != 'bash' ]] 
+        then
+	   docker cp ./tmpuser.json keycloak:/var/tmpuser.json
+	   $kcadm create users    -r cpas -f /var/tmpuser.json
+        else
+	   $kcadm create users    -r cpas -f ./tmpuser.json
+	fi
 	rm tmpuser.json cbo tmp.json cbc
 	echo "User: "$(jq -r '.users[0].username' $f) --rolename user               -r cpas
 	$kcadm add-roles --uusername $(jq -r '.users[0].username' $f) --rolename user               -r cpas

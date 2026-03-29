@@ -56,7 +56,7 @@ echo "Install service programs"
 echo "========================"
 echo 
 sudo apt-get install -y wget systemd git libarchive-dev  vim inetutils-ping figlet ntpdate ssh sudo openssh-server
-sudo apt-get install -y gh gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-devi logrotate net-tools
+sudo apt-get install -y gh jq gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-dev logrotate net-tools
 #
 ######################################################
 echo 
