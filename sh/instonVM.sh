@@ -223,22 +223,13 @@ pwd
 ./bin/kcadm.sh update realms/master -s sslRequired=NONE
 # create the realm CPAS 
 ./bin/kcadm.sh delete realms/cpas                  	# delete the realm just in case
-./bin/kcadm.sh create realms -f conf/realm-cpas.json --server http://localhost:8081
-# check the users
-./bin/kcadm.sh get realms   --fields id,realm,enabled,displayName,displayNameHtml
-./bin/kcadm.sh get users    -r cpas
-./bin/kcadm.sh get clients  -r cpas
-./bin/kcadm.sh get roles    -r cpas
-./bin/kcadm.sh get groups   -r cpas
-bash ../keycloak/addusers.sh
 pwd
-
+bash SetupRealm.sh bash					# create the realm with the client and the users
 ######################################################
 echo
 echo
 cd ..
 # change the IP addr from John's IP to the docker container IP
-bash ~/src/sh/changeip.sh
 if [ -f crontab.data ]		
 then 			
      	echo				
