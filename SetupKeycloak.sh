@@ -32,8 +32,8 @@ $kcadm update realms/master -s sslRequired=NONE
 sleep 5						# wait a bit to be sure that the update is done
 if [[ $1 != 'bash' ]] 
 then						# docker version
-   docker cp ./jsonfiles/realm-cpas.json keycloak:/root	# copy the realm file into the docker container
-   $kcadm create realms -f /root/realm-cpas.json # create the basis realm cpas
+   docker cp ./jsonfiles/realm-cpas.json keycloak:/var	# copy the realm file into the docker container
+   $kcadm create realms -f /var/realm-cpas.json # create the basis realm cpas
 else
    $kcadm create realms -f ./jsonfiles/realm-cpas.json 	# create the basis realm cpas
 fi
