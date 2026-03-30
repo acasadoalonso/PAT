@@ -24,17 +24,17 @@ export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
 echo "Container IP:  "$CONTAINERIP
 echo "============================"
 echo
-git config --global --add safe.directory /home/pat/src/pat/patServer
-git config --global --add safe.directory /home/pat/src/pat/patClient
+git config --global --add safe.directory /home/$user/src/pat/patServer
+git config --global --add safe.directory /home/$user/src/pat/patClient
 # check for curl and install it if needed
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 echo
 echo "Install the PAT software from GitHub"
 echo
-sudo usermod pat -s /bin/bash
-cd /home/pat/src/pat
+sudo usermod $user -s /bin/bash
+cd /home/$user/src/pat
 sudo chmod 775 .
-sudo chown pat:pat .
+sudo chown $user:$user .
 rm -rf patServer
 rm -rf patClient
 gh auth login --with-token < ../mytoken.txt
