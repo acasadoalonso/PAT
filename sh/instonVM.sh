@@ -96,6 +96,8 @@ tar zxvf keycloak-$KCversion.tar.gz
 rm       keycloak-$KCversion.tar.gz
 export KEYCLOAK_ADMIN=admin
 export KEYCLOAK_ADMIN_PASSWORD=admin
+export KC_BOOTSTRAP_ADMIN_USERNAME=admin
+export KC_BOOTSTRAP_ADMIN_PASSWORD=admin
 cd ~/src/keycloak-$KCversion/
 pwd
 export PATH=$PATH:$(pwd)/bin
