@@ -1,6 +1,5 @@
-proxdata
-dockerdata
 archive
+.env
 mytoken.txt
 googlemapsapi.key
 tmp/

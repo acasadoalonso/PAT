@@ -5,17 +5,26 @@
 SUBNET := 172.19.0.0			# subnet used
 CONTAINERIP := 172.19.0.2		# IP assigned to the PAT container
 
+
 build :
+	cd ~/src/pat/patServer
+
 	docker compose build --no-cache=false 
 clean:
+	cd ~/src/pat/patServer
+
 	docker compose rm 
 	docker system prune 
 	docker images
 cleanpat:
+	cd ~/src/pat/patServer
+
 	docker compose rmi 
 	docker images
 run:
-	. ./env
+	cd ~/src/pat/patServer
+
+	source ./env
 	echo $USER
 	SCRIPT=$(readlink -f $0)
 	SCRIPTPATH=`dirname $SCRIPT`
@@ -28,17 +37,26 @@ run:
 
 	docker compose up -d
 setup:
+
 	bash SetupKeycloak.sh
 attach:
+	cd ~/src/pat/patServer
+
 	docker attach pat_server
 start:
+	cd ~/src/pat/patServer
+
 	docker compose start  -d
 meshinst:
 	docker exec   pat_server bash /home/pat/src/sh/meshi.sh &
 mesh:
 	docker exec   pat_server bash /home/pat/src/sh/meshstart.sh &
 net:
+	cd ~/src/pat/patServer
+
 	docker network create --subnet=${SUBNET}/16 cpas
 ssh:
+	cd ~/src/pat/patServer
+
 	docker exec -it pat_server /bin/bash service ssh start
 	sshpass -p docker  ssh pat@${CONTAINERIP} 

@@ -15,6 +15,7 @@
       "secret": "${KC_CLIENT_SECRET}",
       "redirectUris": [
         "http://${SERVER_HOSTNAME}:${API_PORT}/api/*",
+        "http://patigc.fai.org:${API_PORT}/api/*",
         "http://localhost:${API_PORT}/api/*"
       ],
       "webOrigins": [
@@ -30,6 +31,7 @@
       "description": "The client receiving the PAT request",
       "redirectUris": [
         "http://${CLIENT_HOSTNAME}:${GUI_PORT}/*",
+        "http://patigc.fai.org:${GUI_PORT}/*", 
         "http://localhost:${GUI_PORT}/*"
       ],
       "webOrigins": [
@@ -66,7 +68,7 @@
       "credentials": [
         {
           "type": "password",
-          "value": "igcigc"
+          "value": "${KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD}"
         }
       ],
       "realmRoles": [
@@ -88,7 +90,7 @@
       "credentials": [
         {
           "type": "password",
-          "value": "patpat"
+          "value": "${KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD}"
         }
       ],
       "realmRoles": [
@@ -110,7 +112,7 @@
       "credentials": [
         {
           "type": "password",
-          "value": "admin"
+          "value": "${KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD}"
         }
       ],
       "realmRoles": [
