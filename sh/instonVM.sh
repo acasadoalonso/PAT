@@ -94,10 +94,8 @@ echo
 wget http://github.com/keycloak/keycloak/releases/download/$KCversion/keycloak-$KCversion.tar.gz
 tar zxvf keycloak-$KCversion.tar.gz
 rm       keycloak-$KCversion.tar.gz
-export KEYCLOAK_ADMIN=admin
-export KEYCLOAK_ADMIN_PASSWORD=admin
-export KC_BOOTSTRAP_ADMIN_USERNAME=admin
-export KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+export KEYCLOAK_ADMIN=$KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME
+export KEYCLOAK_ADMIN_PASSWORD=$KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD
 cd ~/src/keycloak-$KCversion/
 pwd
 export PATH=$PATH:$(pwd)/bin
@@ -170,8 +168,6 @@ echo "alias pat='(cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'"   
 echo "alias patrestart='(pkill node  && cd ~/src/pat/patServer && bash runme.sh >>/tmp/pat.log &)'"   >>~/.bash_aliases
 echo "alias status='(pgrep -a node;echo;pgrep -a java;echo;sudo netstat -ano -p tcp|grep 8080;echo)'" >>~/.bash_aliases
 #
-echo "export KEYCLOAK_ADMIN='admin'"                                                                  >>~/.profile
-echo "export KEYCLOAK_ADMIN_PASSWORD='admin'"                                                         >>~/.profile
 echo "neofetch      "                                                                                 >>~/.profile
 echo '(echo ;pgrep -a node;echo ;pgrep -a java;echo )'                                                >>~/.profile
 echo "echo '__________________________________________________________________________________'     " >>~/.profile

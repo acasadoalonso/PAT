@@ -22,8 +22,8 @@ echo "KCADM: "$kcadm
 #exit
 export HOSTNAME=$(hostname -I | awk '{ print $1 }' | tail -n1)
 export KEYCLOAK_URL=http://$HOSTNAME:8081         # URL to call Keycloak
-export KEYCLOAK_ADMIN=admin			# default admin user
-export KEYCLOAK_ADMIN_PASSWORD=admin		# default password
+export KEYCLOAK_ADMIN=$KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME			# default admin user
+export KEYCLOAK_ADMIN_PASSWORD=$KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD		# default password
 
 echo "=============="
 echo "Login into keycloak using the CLI interface ..."

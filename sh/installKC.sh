@@ -23,7 +23,7 @@ then
     echo "alias kcstart='(sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev --hostname $KCHOST  --http-port=8081 --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
 else
 
-    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='admin' && sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
+    echo "alias kcstart='(export KEYCLOAK_ADMIN='admin' && export KEYCLOAK_ADMIN_PASSWORD='$KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD' && sudo ~/src/*$KCversion/bin/kc.sh --verbose start-dev  --http-port 8081  --http-enabled true --https-client-auth none --features=organization &)'"    >>~/.bash_aliases
 fi
 echo 
 cd   ~/src/
@@ -34,8 +34,8 @@ echo
 wget https://github.com/keycloak/keycloak/releases/download/$KCversion/keycloak-$KCversion.tar.gz
 tar zxvf keycloak-$KCversion.tar.gz
 rm       keycloak-$KCversion.tar.gz
-export KEYCLOAK_ADMIN=admin
-export KEYCLOAK_ADMIN_PASSWORD=admin
+export KEYCLOAK_ADMIN=i$KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME
+export KEYCLOAK_ADMIN_PASSWORD=$KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD
 cd ~/src/keycloak-$KCversion/
 echo 
 echo "Copy REALM"
