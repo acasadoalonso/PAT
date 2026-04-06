@@ -1,0 +1,112 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": {
+                    "type": "grafana",
+                    "uid": "-- Grafana --"
+                },
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "type": "dashboard"
+            }
+        ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": null,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+        {
+            "datasource": "Loki",
+            "gridPos": {
+                "h": 6,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 1,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "table",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": "Loki",
+                    "editorMode": "builder",
+                    "expr": "sum by (level) (count_over_time({app=\"pat_server\"} | json | level != \"\" [5m]))",
+                    "legendFormat": "level {{level}}",
+                    "queryType": "range",
+                    "refId": "A"
+                }
+            ],
+            "title": "Log Volume by Level (5m)",
+            "type": "timeseries"
+        },
+        {
+            "datasource": "Loki",
+            "gridPos": {
+                "h": 18,
+                "w": 24,
+                "x": 0,
+                "y": 6
+            },
+            "id": 2,
+            "options": {
+                "dedupStrategy": "none",
+                "enableInfiniteScrolling": true,
+                "prettifyLogMessage": true,
+                "showCommonLabels": false,
+                "showLabels": true,
+                "showTime": true,
+                "sortOrder": "Descending",
+                "wrapLogMessage": true
+            },
+            "targets": [
+                {
+                    "datasource": "Loki",
+                    "editorMode": "builder",
+                    "expr": "{app=\"pat_server\"}",
+                    "queryType": "range",
+                    "refId": "A"
+                }
+            ],
+            "title": "patServer Logs",
+            "type": "logs"
+        }
+    ],
+    "refresh": "10s",
+    "schemaVersion": 39,
+    "style": "dark",
+    "tags": [
+        "cpas",
+        "pat_server",
+        "logs"
+    ],
+    "templating": {
+        "list": []
+    },
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "patServer Logs",
+    "uid": "patserver-logs",
+    "version": 1,
+    "weekStart": ""
+}

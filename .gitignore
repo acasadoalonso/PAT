@@ -1,5 +1,6 @@
 archive
 .env
+sscommit.sh
 mytoken.txt
 googlemapsapi.key
 tmp/

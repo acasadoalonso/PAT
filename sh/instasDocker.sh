@@ -24,6 +24,7 @@ export CONTAINERIP=$(hostname -I | awk '{ print $1 }' | tail -n1)
 echo "Container IP:  "$CONTAINERIP
 echo "============================"
 echo
+
 # check for curl and install it if needed
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 #
@@ -51,7 +52,11 @@ sudo apt-get install -y wget systemd git libarchive-dev  vim inetutils-ping figl
 sudo apt-get install -y gh jq gcc g++ make curl neofetch iproute2 ca-certificates gnupg libfmt-dev logrotate net-tools
 #
 ######################################################
-
+echo
+echo "Please be sure that you had set the mytoken.txt file with your github token in the ~/src directory"
+echo "       and also de .env file with the needed variables"
+echo
+input -n 1 -s -r -p "Press any key to continue ..."
 echo
 echo "Install the PAT software from GitHub"
 echo

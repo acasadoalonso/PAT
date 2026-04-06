@@ -1,0 +1,17 @@
+apiVersion: 1
+
+datasources:
+  - name: CPAS Postgres
+    uid: cpas-postgres
+    type: postgres
+    access: proxy
+    isDefault: true
+    url: postgres:5432
+    database: ${KC_POSTGRES_DB}
+    user: ${KC_DB_USER}
+    secureJsonData:
+      password: ${KC_DB_PASSWORD}
+    jsonData:
+      sslmode: disable
+      postgresVersion: 1500
+      timescaledb: false
