@@ -1,1 +1,156 @@
-patServer/realm-config.json
+{
+  "realm": "cpas",
+  "enabled": true,
+  "displayName": "CPAS",
+  "displayNameHtml": "Proximity Analysis Tool",
+  "sslRequired": "none",
+  "clients": [
+    {
+      "clientId": "patServer",
+      "enabled": true,
+      "name": "patServer",
+      "description": "The pat daemon serving the request",
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${KC_CLIENT_SECRET}",
+      "redirectUris": [
+        "http://${SERVER_HOSTNAME}:${API_PORT}/api/*",
+        "http://${SERVER_DSNAME}:${API_PORT}/api/*",
+        "http://patigc.fai.org:${API_PORT}/api/*",
+        "http://localhost:${API_PORT}/api/*"
+      ],
+      "webOrigins": [
+        "+"
+      ],
+      "bearerOnly": false
+    },
+    {
+      "clientId": "patClient",
+      "enabled": true,
+      "publicClient": true,
+      "name": "patClient ",
+      "description": "The client receiving the PAT request",
+      "redirectUris": [
+        "http://${CLIENT_HOSTNAME}:${GUI_PORT}/*",
+        "http://${CLIENT_DSNAME}:${GUI_PORT}/*",
+        "http://patigc.fai.org:${GUI_PORT}/*", 
+        "http://localhost:${GUI_PORT}/*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "directAccessGrantsEnabled": true
+    },
+    {
+      "clientId": "grafana",
+      "enabled": true,
+      "name": "grafana",
+      "description": "Grafana OAuth2 client",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${GRAFANA_OAUTH_CLIENT_SECRET}",
+      "redirectUris": [
+        "http://${GRAFANA_HOSTNAME}:${GRAFANA_PORT}/login/generic_oauth"
+      ],
+      "webOrigins": [
+        "http://${GRAFANA_HOSTNAME}:${GRAFANA_PORT}"
+      ],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false
+    }
+  ],
+  "users": [
+    {
+      "username": "igc",
+      "enabled": true,
+      "email": "igc@fai.org",
+      "firstName": "Pat",
+      "lastName": "IGC",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD}"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account"
+        ]
+      }
+    },
+    {
+      "username": "patuser",
+      "enabled": true,
+      "email": "patuser@fai.org",
+      "firstName": "Pat",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD}"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account"
+        ]
+      }
+    },
+    {
+      "username": "admin",
+      "enabled": true,
+      "email": "admin@fai.org",
+      "firstName": "Admin",
+      "lastName": "Administrator",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD}"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "admin"
+      ],
+      "clientRoles": {
+        "realm-management": [
+          "realm-admin"
+        ],
+        "account": [
+          "manage-account"
+        ]
+      }
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "User privileges"
+      },
+      {
+        "name": "admin",
+        "description": "Administrator privileges"
+      }
+    ]
+  },
+  "groups": [
+    {
+      "name": "PAT users",
+      "path": "/PAT users",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {}
+    }
+  ]
+}
