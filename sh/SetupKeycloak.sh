@@ -31,6 +31,8 @@ echo "Hostname:          "$(hostname)
 echo "Keycloak URL:      "$KEYCLOAK_URL
 echo "Keycloak Admin:    "$KEYCLOAK_ADMIN
 echo "Keycloak passowrd: "$KEYCLOAK_ADMIN_PASSWORD
+echo "Server DSNAME:     "$SERVER_DSNAME
+echo "Client DSNAME:     "$CLIENT_DSNAME
 echo "=============="
 
 #exit
