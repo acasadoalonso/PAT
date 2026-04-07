@@ -37,7 +37,7 @@ services:
       - ROOT=/prox/proxdata
       - AUTH_SERVER_URL=http://${AUTH_HOSTNAME}:${AUTH_PORT}
       - API_PORT=${API_PORT}
-      - CORS_ORIGINS=http://${CLIENT_HOSTNAME}:${GUI_PORT},http://localhost:${GUI_PORT},http://${CLIENT_DSNAME}:${GUI_PORT}
+      - CORS_ORIGINS=http://${CLIENT_HOSTNAME}:${GUI_PORT},http://localhost:${GUI_PORT},http://${CLIENT_DSNAME}:${GUI_PORT},http://${CLIENT_HOSTNAME}:${API_PORT}
       - KC_CLIENT_SECRET=${KC_CLIENT_SECRET}
       - LOKI_HOST=http://loki:3100
     extra_hosts:

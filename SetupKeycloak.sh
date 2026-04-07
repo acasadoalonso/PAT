@@ -18,14 +18,22 @@ else						# bash version
    export kcadm='kcadm.sh '
    cd -
 fi
-echo "KCADM: "$kcadm
-#exit
+source .env				# load the environment variables
+echo "KCADM: "$kcadm			# show the kcadm command to be used	
 export HOSTNAME=$(hostname -I | awk '{ print $1 }' | tail -n1)
 export KEYCLOAK_URL=http://$HOSTNAME:8081         # URL to call Keycloak
 export KEYCLOAK_ADMIN=$KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME			# default admin user
 export KEYCLOAK_ADMIN_PASSWORD=$KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD		# default password
-
+echo
 echo "=============="
+echo "Hostname:          "$HOSTNAME
+echo "Hostname:          "$(hostname)
+echo "Keycloak URL:      "$KEYCLOAK_URL
+echo "Keycloak Admin:    "$KEYCLOAK_ADMIN
+echo "Keycloak passowrd: "$KEYCLOAK_ADMIN_PASSWORD
+echo "=============="
+
+#exit
 echo "Login into keycloak using the CLI interface ..."
 $kcadm config credentials --server $KEYCLOAK_URL  --realm master --user "$KEYCLOAK_ADMIN" --password "$KEYCLOAK_ADMIN_PASSWORD"
 $kcadm update realms/master -s sslRequired=NONE
