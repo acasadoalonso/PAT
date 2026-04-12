@@ -37,6 +37,10 @@ services:
       - ROOT=/prox/proxdata
       - AUTH_SERVER_URL=http://${AUTH_HOSTNAME}:${AUTH_PORT}
       - API_PORT=${API_PORT}
+      - GIT_REVISION=${GIT_REVISION:-unknown}
+      - GIT_DATESTAMP=${GIT_DATESTAMP:-unknown}
+      - CLIENT_GIT_REVISION=${GIT_REVISION:-unknown}
+      - CLIENT_GIT_DATESTAMP=${GIT_DATESTAMP:-unknown}
       - CORS_ORIGINS=http://${CLIENT_HOSTNAME}:${GUI_PORT},http://localhost:${GUI_PORT},http://${CLIENT_DSNAME}:${GUI_PORT},http://${CLIENT_HOSTNAME}:${API_PORT}
       - KC_CLIENT_SECRET=${KC_CLIENT_SECRET}
       - LOKI_HOST=http://loki:3100
@@ -68,20 +72,27 @@ services:
         - REACT_APP_API_URL=http://${SERVER_HOSTNAME}:${API_PORT}
         - REACT_APP_CESIUM_ION_TOKEN=${CESIUM_ION_TOKEN}
         - REACT_APP_GRAFANA_URL=http://${GRAFANA_HOSTNAME}:${GRAFANA_PORT}
+        - REACT_APP_HELP_URL=${REACT_APP_HELP_URL:-}
+        - REACT_APP_CLIENT_GIT_REVISION=${GIT_REVISION:-unknown}
+        - REACT_APP_CLIENT_GIT_DATESTAMP=${GIT_DATESTAMP:-unknown}
     restart: unless-stopped
     ports:
       - ${GUI_PORT}:${GUI_PORT}
     hostname: pat_client
+    volumes:
+      # Share nginx logs with fail2ban
+      - /var/log/nginx:/var/log/nginx
+
     develop:
       watch:
         - action: rebuild
-          path: ../patClient/src
-        - action: rebuild
-          path: ../patClient/public
-        - action: rebuild
-          path: ../patClient/package.json
-        - action: rebuild
-          path: ../patClient/Dockerfile.client
+          path: ../patClient
+          ignore:
+            - node_modules/
+            - build/
+            - dist/
+            - .git/
+            - .DS_Store
     depends_on:
       - keycloak
 
@@ -194,6 +205,18 @@ services:
       - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
     depends_on:
       - keycloak
+
+  pat_server_test:
+    container_name: pat_server_test
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      - CORS_ORIGINS=http://localhost:3000
+      - AUTH_SERVER_URL=http://localhost:8081
+      - ROOT=/tmp/patserver-test
+    profiles:
+      - test
 
 volumes:
   postgres-data:

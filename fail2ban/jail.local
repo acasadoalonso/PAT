@@ -1,0 +1,35 @@
+[DEFAULT]
+bantime  = 3600
+findtime = 600
+maxretry = 20
+backend  = auto
+
+[nginx-http-auth]
+enabled  = true
+port     = http,https
+filter   = nginx-http-auth
+logpath  = /var/log/nginx/error.log
+
+[nginx-badbots]
+enabled  = true
+port     = http,https
+filter   = nginx-badbots
+logpath  = /var/log/nginx/access.log
+maxretry = 2
+
+[nginx-req-limit]
+enabled  = true
+port     = http,https
+filter   = nginx-req-limit
+logpath  = /var/log/nginx/error.log
+maxretry = 5
+
+
+# Jail para login bruteforce en tu API Node
+[nginx-login]
+enabled  = true
+port     = http,https
+filter   = nginx-login
+logpath  = /var/log/nginx/access.log
+maxretry = 5
+findtime = 300
