@@ -19,7 +19,16 @@
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "id": null,
-    "links": [],
+    "links": [
+        {
+            "icon": "dashboard",
+            "keepTime": true,
+            "targetBlank": false,
+            "title": "patServer REST Latency",
+            "type": "link",
+            "url": "/d/patserver-rest-latency"
+        }
+    ],
     "liveNow": false,
     "panels": [
         {

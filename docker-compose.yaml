@@ -43,11 +43,14 @@ services:
       - CLIENT_GIT_DATESTAMP=${GIT_DATESTAMP:-unknown}
       - CORS_ORIGINS=http://${CLIENT_HOSTNAME}:${GUI_PORT},http://localhost:${GUI_PORT},http://${CLIENT_DSNAME}:${GUI_PORT},http://${CLIENT_HOSTNAME}:${API_PORT}
       - KC_CLIENT_SECRET=${KC_CLIENT_SECRET}
+      - OPENAIP_API_KEY=${OPENAIP_API_KEY}
       - LOKI_HOST=http://loki:3100
     extra_hosts:
       - "${HOSTNAME}:host-gateway"
     volumes:
       - ./proxdata:/prox/proxdata
+      - ../sensitive:/prox/Server/sensitive:ro
+
     develop:
       watch:
         - action: sync+restart
@@ -75,6 +78,7 @@ services:
         - REACT_APP_HELP_URL=${REACT_APP_HELP_URL:-}
         - REACT_APP_CLIENT_GIT_REVISION=${GIT_REVISION:-unknown}
         - REACT_APP_CLIENT_GIT_DATESTAMP=${GIT_DATESTAMP:-unknown}
+        - PAT_CLIENT_BUILD_SCRIPT=${PAT_CLIENT_BUILD_SCRIPT:-build}
     restart: unless-stopped
     ports:
       - ${GUI_PORT}:${GUI_PORT}
