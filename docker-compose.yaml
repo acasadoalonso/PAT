@@ -39,8 +39,8 @@ services:
       - API_PORT=${API_PORT}
       - GIT_REVISION=${GIT_REVISION:-unknown}
       - GIT_DATESTAMP=${GIT_DATESTAMP:-unknown}
-      - CLIENT_GIT_REVISION=${GIT_REVISION:-unknown}
-      - CLIENT_GIT_DATESTAMP=${GIT_DATESTAMP:-unknown}
+      - CLIENT_GIT_REVISION=${CLIENT_GIT_REVISION:-unknown}
+      - CLIENT_GIT_DATESTAMP=${CLIENT_GIT_DATESTAMP:-unknown}
       - CORS_ORIGINS=http://${CLIENT_HOSTNAME}:${GUI_PORT},http://localhost:${GUI_PORT},http://${CLIENT_DSNAME}:${GUI_PORT},http://${CLIENT_HOSTNAME}:${API_PORT}
       - KC_CLIENT_SECRET=${KC_CLIENT_SECRET}
       - OPENAIP_API_KEY=${OPENAIP_API_KEY}
@@ -162,8 +162,9 @@ services:
       - ${AUTH_PORT}:8080
     volumes:
       - ./realm-config.json:/opt/keycloak/data/import/realm-config.json
+      - ./keycloak/:/opt/keycloak/data/log:rw # map logs to host for fail2ban
     #   - "/etc/ssl/keycloak/:/etc/x509/https" # map certificates to container
-    command: ["start-dev", "--import-realm"]
+    command: ["start-dev", "--import-realm", "--log-level=warn", "--log=file"] # Use start-dev for development, start for production
       # - start
     depends_on:
       - postgres
@@ -221,6 +222,46 @@ services:
       - ROOT=/tmp/patserver-test
     profiles:
       - test
+
+  cpas_mcp:
+    container_name: cpas_mcp
+    build:
+      context: ./mcp
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - ${CPASMCP_MCP_PORT:-9000}:${CPASMCP_MCP_PORT:-9000}
+    environment:
+      - CPASMCP_API_URL=http://pat_server:${API_PORT}
+      - CPASMCP_AUTH_SERVER_URL=http://keycloak:8080
+      - CPASMCP_REALM=${KEYCLOAK_REALM}
+      - CPASMCP_CLIENT_ID=${CPASMCP_CLIENT_ID:-CPASMCP}
+      - CPASMCP_CLIENT_SECRET=${CPASMCP_CLIENT_SECRET:-}
+      - CPASMCP_USERNAME=${KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME}
+      - CPASMCP_PASSWORD=${KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD}
+      - CPASMCP_MCP_TRANSPORT=http
+      - CPASMCP_MCP_HOST=0.0.0.0
+      - CPASMCP_MCP_PORT=${CPASMCP_MCP_PORT:-9000}
+      - CPASMCP_MCP_PATH=/mcp
+    depends_on:
+      - pat_server
+      - keycloak
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./mcp
+          target: /app
+          ignore:
+            - .venv/
+            - __pycache__/
+            - .git/
+            - .pytest_cache/
+        - action: rebuild
+          path: ./mcp/requirements.txt
+        - action: rebuild
+          path: ./mcp/Dockerfile
+    profiles:
+      - extras
 
 volumes:
   postgres-data:
