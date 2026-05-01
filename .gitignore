@@ -3,6 +3,7 @@ archive
 sscommit.sh
 mytoken.txt
 googlemapsapi.key
+patpull.sh
 tmp/
 patServer/
 patClient/

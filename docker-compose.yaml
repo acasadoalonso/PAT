@@ -12,7 +12,7 @@ services:
     image: grafana/loki:2.9.4
     container_name: loki
     user: ${APP_UID}:${APP_GID}
-    restart: unless-stopped
+    restart: no
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile.server
       tags:
         - $DOCK_USER/pat_server
-    restart: unless-stopped
+    restart: no
     ports:
       - ${API_PORT}:${API_PORT}
     hostname: pat_server
@@ -79,7 +79,7 @@ services:
         - REACT_APP_CLIENT_GIT_REVISION=${GIT_REVISION:-unknown}
         - REACT_APP_CLIENT_GIT_DATESTAMP=${GIT_DATESTAMP:-unknown}
         - PAT_CLIENT_BUILD_SCRIPT=${PAT_CLIENT_BUILD_SCRIPT:-build}
-    restart: unless-stopped
+    restart: no
     ports:
       - ${GUI_PORT}:${GUI_PORT}
     hostname: pat_client
@@ -104,7 +104,7 @@ services:
     image: postgres:latest
     container_name: postgres
     user: ${APP_UID}:${APP_GID}
-    restart: always
+    restart: no
     ports:
       - 5432:5432
     environment:
@@ -124,7 +124,7 @@ services:
     image: quay.io/keycloak/keycloak:${KC_VERSION}
     container_name: keycloak
     user: ${APP_UID}:${APP_GID}
-    restart: always
+    restart: no
     environment:
       KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME}
       KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD}
@@ -178,7 +178,7 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
-    restart: unless-stopped
+    restart: no
     ports:
       - ${GRAFANA_PORT}:3000
     environment:
@@ -228,7 +228,7 @@ services:
     build:
       context: ./mcp
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: no
     ports:
       - ${CPASMCP_MCP_PORT:-9000}:${CPASMCP_MCP_PORT:-9000}
     environment:
